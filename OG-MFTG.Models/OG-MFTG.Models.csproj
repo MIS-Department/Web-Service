@@ -58,10 +58,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\CalculatedTimeProcedure.sql" />
     <Content Include="Scripts\DailyTimeRecordProcedure.sql" />
     <Content Include="Scripts\EmployeeTemplateProcedure.sql" />
     <Content Include="Scripts\ScheduleProceduere.sql" />
     <Content Include="Scripts\TemplateProcedure.sql" />
+    <Content Include="Scripts\TemplateScheduleProcedure.sql" />
     <Content Include="Scripts\TimeCategoryProcedure.sql" />
     <Content Include="Scripts\TimeTypeProcedure.sql" />
   </ItemGroup>

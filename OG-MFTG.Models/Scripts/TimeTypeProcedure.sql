@@ -56,7 +56,7 @@ AS
 	DELETE FROM dbo.TimeType WHERE TimeTypeId = @TimeTypeId
 GO
 
-CREATE PROCEDURE TimeTypeIdUpdate(
+CREATE PROCEDURE TimeTypeUpdate(
 	@TimeTypeId int,
 	@Name varchar(25)
 )
