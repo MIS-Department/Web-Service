@@ -59,3 +59,13 @@ AS
 	DELETE FROM dbo.ScheduleNew
 	WHERE ScheduleId = @ScheduleId
 GO
+
+CREATE PROCEDURE ScheduleSelectById(
+	@ScheduleId int
+)
+AS
+	SET NOCOUNT ON
+
+	SELECT * FROM ScheduleNew
+	WHERE ScheduleId = @ScheduleId
+GO

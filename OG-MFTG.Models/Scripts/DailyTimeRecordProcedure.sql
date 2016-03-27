@@ -78,3 +78,13 @@ AS
 	SELECT * FROM dbo.DailyTimeRecord dtr
 	WHERE EmployeeId = @EmployeeId AND DateCreated BETWEEN @StartDate AND @EndDate
 GO 
+
+CREATE PROCEDURE DailyTimeRecordSelectById(
+	@DailyTimeRecordId int
+)
+AS
+	SET NOCOUNT ON
+
+	SELECT * FROM DailyTimeRecord
+	WHERE DailyTimeRecordId = @DailyTimeRecordId
+GO

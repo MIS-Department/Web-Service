@@ -8,44 +8,43 @@ using HR_Department.Models.Tables;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class TimeTypeRepository : IIO<TimeType>
+    public class ScheduleRepository : IIO<Schedule>
     {
-        public async Task<IEnumerable<TimeType>> SelectAll()
+        public async Task<IEnumerable<Schedule>> SelectAll()
         {
             try
             {
                 var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
-                return
-                    await connection.QueryAsync<TimeType>("TimeTypeSelectAll", commandType: CommandType.StoredProcedure);
+                return await connection.QueryAsync<Schedule>("ScheduleAll", commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                CreateLogFile err = new CreateLogFile();
-                await err.ErrorLog(ex.Message,"error");
+                
                 throw;
             }
         }
 
-        public async Task<IEnumerable<TimeType>> SelectById(int id)
+        public async Task<IEnumerable<Schedule>> SelectById(int id)
         {
             try
             {
                 var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
                 var p = new DynamicParameters();
 
-                p.Add("@TimetypeId", id);
-
-                return await connection.QueryAsync<TimeType>("TimeTypeSelectById", p, commandType: CommandType.StoredProcedure);
+                p.Add("@ScheduleId", id);
+                return
+                    await
+                        connection.QueryAsync<Schedule>("ScheduleSelectById", p,
+                            commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                CreateLogFile err = new CreateLogFile();
-                await err.ErrorLog(ex.Message, "error");
+                
                 throw;
             }
         }
 
-        public async Task Insert(TimeType model)
+        public async Task Insert(Schedule model)
         {
             try
             {
@@ -53,14 +52,13 @@ namespace OG_MFTG.DataLayer.Repositories
                 var p = new DynamicParameters();
 
                 p.Add("@Name", model.Name);
-                await connection.ExecuteAsync("TimeTypeInsert", p, commandType: CommandType.StoredProcedure);
-
+                await connection.ExecuteAsync("ScheduleInsert", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                CreateLogFile err = new CreateLogFile();
-                await err.ErrorLog(ex.Message, "error");
-            }
+                
+                throw;
+            }    
         }
 
         public async Task Delete(int id)
@@ -70,37 +68,35 @@ namespace OG_MFTG.DataLayer.Repositories
                 var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
                 var p = new DynamicParameters();
 
-                p.Add("@TimeTypeId", id);
-                await connection.ExecuteAsync("TimeTypeDelete", p, commandType: CommandType.StoredProcedure);
+                p.Add("@ScheduleId", id);
+                await connection.ExecuteAsync("ScheduleDelete", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                CreateLogFile err = new CreateLogFile();
-                await err.ErrorLog(ex.Message, "error");
+                
                 throw;
             }
         }
 
-        public async Task Update(TimeType model)
+        public async Task Update(Schedule model)
         {
             try
             {
                 var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
                 var p = new DynamicParameters();
 
+                p.Add("@ScheduleId", model.ScheduleId);
                 p.Add("@Name", model.Name);
-                p.Add("@TimeTypeId", model.TimeTypeId);
-                await connection.ExecuteAsync("TimeTypeUpdate", p, commandType: CommandType.StoredProcedure);
+                await connection.ExecuteAsync("ScheduleUpdate", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                CreateLogFile err = new CreateLogFile();
-                await err.ErrorLog(ex.Message, "error");
+                
                 throw;
             }
         }
 
-        public async Task<IEnumerable<TimeType>> Search(string name)
+        public async Task<IEnumerable<Schedule>> SelectByName(string name)
         {
             try
             {
@@ -108,12 +104,14 @@ namespace OG_MFTG.DataLayer.Repositories
                 var p = new DynamicParameters();
 
                 p.Add("@Name", name);
-                return await connection.QueryAsync<TimeType>("TimeTypeSelectByName", p, commandType: CommandType.StoredProcedure);
+                return
+                    await
+                        connection.QueryAsync<Schedule>("ScheduleSelectByName", p,
+                            commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                CreateLogFile err = new CreateLogFile();
-                await err.ErrorLog(ex.Message, "error");
+                
                 throw;
             }
         } 

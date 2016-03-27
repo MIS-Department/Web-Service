@@ -59,6 +59,10 @@
     <Compile Include="CreateLogFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IIO.cs" />
+    <Compile Include="Repositories\DailyTimeRecordRepository.cs" />
+    <Compile Include="Repositories\ScheduleRepository.cs" />
+    <Compile Include="Repositories\TemplateRepository.cs" />
+    <Compile Include="Repositories\TimeCategoryRepository.cs" />
     <Compile Include="Repositories\TimeTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
