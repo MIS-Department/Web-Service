@@ -91,14 +91,12 @@ AS
 	WHERE EmployeeId = @EmployeeId
 GO 
 
-CREATE PROCEDURE EmployeeScheduleSelectByScheduleDate(
-	@ScheduleId int,
-	@StartDate date,
-	@EndDate date
+CREATE PROCEDURE EmployeeScheduleSelectByScheduleId(
+	@ScheduleId int
 )
 AS 
 	SET NOCOUNT ON
 
 	SELECT * FROM dbo.EmployeeSchedule es
-	WHERE es.ScheduleId = @ScheduleId AND es.Date BETWEEN @StartDate AND @EndDate
+	WHERE es.ScheduleId = @ScheduleId 
 GO 

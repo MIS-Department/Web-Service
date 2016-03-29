@@ -45,3 +45,32 @@ AS
 
 	SELECT * FROM CalculatedTime WHERE DailyTimeRecordId = @DailyTimeRecordId
 GO 
+
+CREATE PROCEDURE CalculatedTimeDelete(
+	@CalculatedTimeId int
+)
+AS
+	SET NOCOUNT ON
+
+	DELETE FROM dbo.CalculatedTime
+	WHERE CalculatedTimeId = @CalculatedTimeId
+GO
+
+
+CREATE PROCEDURE CalculatedTimeUpdate(
+	@CalculatedTimeId int,
+	@TimeTypeId int,
+	@Value time,
+	@DailyTimeRecordId int
+)
+AS
+	SET NOCOUNT ON
+
+	UPDATE dbo.CalculatedTime
+	SET
+	    --CalculatedTimeId - this column value is auto-generated
+	    dbo.CalculatedTime.TimeTypeId = @TimeTypeId, -- int
+	    dbo.CalculatedTime.[Value] = @Value, -- time
+	    dbo.CalculatedTime.DailyTimeRecordId = @DailyTimeRecordId -- int
+	WHERE CalculatedTimeId = @CalculatedTimeId
+GO

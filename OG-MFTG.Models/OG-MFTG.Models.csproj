@@ -60,7 +60,7 @@
   <ItemGroup>
     <Content Include="Scripts\CalculatedTimeProcedure.sql" />
     <Content Include="Scripts\DailyTimeRecordProcedure.sql" />
-    <Content Include="Scripts\EmployeeTemplateProcedure.sql" />
+    <Content Include="Scripts\EmployeeScheduleProcedure.sql" />
     <Content Include="Scripts\ScheduleProceduere.sql" />
     <Content Include="Scripts\TemplateProcedure.sql" />
     <Content Include="Scripts\TemplateScheduleProcedure.sql" />
