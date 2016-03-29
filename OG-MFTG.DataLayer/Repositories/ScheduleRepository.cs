@@ -44,7 +44,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Insert(Schedule model)
+        public async Task<int> Insert(Schedule model)
         {
             try
             {
@@ -52,7 +52,11 @@ namespace OG_MFTG.DataLayer.Repositories
                 var p = new DynamicParameters();
 
                 p.Add("@Name", model.Name);
+                p.Add("@ScheduleId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
                 await connection.ExecuteAsync("ScheduleInsert", p, commandType: CommandType.StoredProcedure);
+
+                return p.Get<int>("@ScheduleId");
             }
             catch (Exception ex)
             {

@@ -2,6 +2,7 @@ USE hr_bak
 GO
 
 CREATE PROCEDURE DailyTimeRecordInsert(
+	@DailyTimeRecordId int OUTPUT,
 	@EmployeeId int,
 	@TimeCategoryId int,
 	@DateCreated datetime,
@@ -26,6 +27,8 @@ AS
 	    @DateCreated, -- DateCreated - datetime
 	    @Time-- Time - datetime
 	)
+
+	SET @DailyTimeRecordId = SCOPE_IDENTITY();
 GO
 
 CREATE PROCEDURE DailyTimeRecordAll
@@ -87,4 +90,12 @@ AS
 
 	SELECT * FROM DailyTimeRecord
 	WHERE DailyTimeRecordId = @DailyTimeRecordId
+GO
+
+CREATE PROCEDURE DailyTimeRecordEmployeeNumber(
+	@EmployeeNumber int
+)
+AS
+	SELECT e.employee_id, e.middleName, e.firstname, e.lastname, e.image_employee FROM dbo.employee e
+	WHERE employee_number = @EmployeeNumber AND e.is_resigned = 0
 GO

@@ -23,7 +23,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
         }
@@ -43,12 +43,12 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
         }
 
-        public async Task Insert(DailyTimeRecord model)
+        public async Task<int> Insert(DailyTimeRecord model)
         {
             try
             {
@@ -59,11 +59,15 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@TimeCategoryId", model.TimeCategoryId);
                 p.Add("@DateCreated", model.DateCreated);
                 p.Add("@Time", model.Time);
+                p.Add("@DailyTimeRecordId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
                 await connection.ExecuteAsync("DailyTimeRecordInsert", p, commandType: CommandType.StoredProcedure);
+
+                return p.Get<int>("@DailyTimeRecordId");
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
         }
@@ -80,7 +84,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
         }
@@ -101,7 +105,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
         }
@@ -121,9 +125,30 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
-        } 
+        }
+
+        public async Task<IEnumerable<Employee>> SelectByEmployeeNumber(string number)
+        {
+            try
+            {
+                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                var p = new DynamicParameters();
+
+                p.Add("@EmployeeNumber", number);
+
+                return
+                    await
+                        connection.QueryAsync<Employee>("DailyTimeRecordEmployeeNumber", p,
+                            commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

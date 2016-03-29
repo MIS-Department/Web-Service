@@ -49,7 +49,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }    
         }
 
-        public async Task Insert(CalculatedTime model)
+        public async Task<int> Insert(CalculatedTime model)
         {
             try
             {
@@ -59,8 +59,10 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@TimeTypeId", model.TimeTypeId);
                 p.Add("@Value", model.Value);
                 p.Add("@DailyTimeRecordId", model.DateTimeRecordId);
+                p.Add("@CalculatedId",dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 await connection.ExecuteAsync("CalculatedTimeInsert", commandType: CommandType.StoredProcedure);
+                return p.Get<int>("@CalculatedId");
             }
             catch (Exception)
             {

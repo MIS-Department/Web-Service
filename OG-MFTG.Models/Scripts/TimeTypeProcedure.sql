@@ -29,6 +29,7 @@ AS
 GO
 
 CREATE PROCEDURE TimeTypeInsert(
+	@TimeTypeId int OUTPUT,
 	@Name varchar(25)
 )
 AS
@@ -45,6 +46,8 @@ AS
 	    -- TimeTypeId - int
 	    @Name -- Name - varchar
 	)
+
+	SET @TimeTypeId = SCOPE_IDENTITY();
 GO
 
 CREATE PROCEDURE TimeTypeDelete(

@@ -48,7 +48,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Insert(TimeCategory model)
+        public async Task<int> Insert(TimeCategory model)
         {
             try
             {
@@ -56,7 +56,11 @@ namespace OG_MFTG.DataLayer.Repositories
                 var p = new DynamicParameters();
 
                 p.Add("@TimeCategoryValue", model.TimeCategoryValue);
+                p.Add("@TimeCategoryId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
                 await connection.ExecuteAsync("TimeCategoryInsert", p, commandType: CommandType.StoredProcedure);
+
+                return p.Get<int>("@TimeCategoryId");
             }
             catch (Exception ex)
             {

@@ -45,7 +45,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Insert(Template model)
+        public async Task<int> Insert(Template model)
         {
             try
             {
@@ -56,7 +56,10 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@Description", model.Description);
                 p.Add("@StartTime", model.StartTime);
                 p.Add("@EndTime", model.EndTime);
+                p.Add("@TemplateId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
                 await connection.ExecuteAsync("TemplateInsert", p, commandType: CommandType.StoredProcedure);
+                return p.Get<int>("@TemplateId");
             }
             catch (Exception)
             {

@@ -2,6 +2,7 @@ USE hr_bak
 GO
 
 CREATE PROCEDURE TemplateInsert(
+	@TemplateId int OUTPUT,
 	@TemplateCode nvarchar(50),
 	@Description nvarchar(50),
 	@Start time,
@@ -26,6 +27,8 @@ AS
 	    @Start, -- StartTime - time
 	    @End -- EndTime - time
 	)
+
+	SET @TemplateId = SCOPE_IDENTITY();
 GO 
 
 CREATE PROCEDURE TemplateSelectById(

@@ -16,6 +16,7 @@ AS
 GO
 
 CREATE PROCEDURE CalculatedTimeInsert(
+	@CalculatedId int OUTPUT,
 	@TimeTypeId int,
 	@Value time,
 	@DailyTimeRecordId int
@@ -35,6 +36,8 @@ AS
 	    @Value, -- Value - time
 	    @DailyTimeRecordId-- DailyTimeRecordId - int
 	)
+
+	SET @CalculatedId = SCOPE_IDENTITY();
 GO 
 
 CREATE PROCEDURE CalculatedTimeSelectByDailyTimeRecordId(

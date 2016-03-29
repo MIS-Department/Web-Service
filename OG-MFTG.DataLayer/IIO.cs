@@ -7,7 +7,7 @@ namespace OG_MFTG.DataLayer
     {
         Task<IEnumerable<T>> SelectAll();
         Task<IEnumerable<T>> SelectById(int id);
-        Task Insert(T model);
+        Task<int> Insert(T model);
         Task Delete(int id);
         Task Update(T model);
     }

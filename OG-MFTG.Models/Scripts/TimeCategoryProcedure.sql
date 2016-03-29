@@ -29,6 +29,7 @@ AS
 GO
 
 CREATE PROCEDURE TimeCategoryInsert(
+	@TimeCategoryId int OUTPUT,
 	@TimeCategoryValue varchar(25)
 )
 AS
@@ -44,6 +45,8 @@ AS
 	    -- TimeCategoryId - int
 	    @TimeCategoryValue -- TimeCategoryValue - varchar
 	)
+
+	SET @TimeCategoryId = SCOPE_IDENTITY();
 GO
 
 CREATE PROCEDURE TimeCategoryDelete(

@@ -33,7 +33,8 @@ AS
 GO 
 
 CREATE PROCEDURE ScheduleInsert(
-	@Name varchar(25)
+	@ScheduleId int OUTPUT
+	,@Name varchar(25)
 )
 AS
 	SET NOCOUNT ON
@@ -48,6 +49,8 @@ AS
 	    -- ScheduleId - int
 	    @Name -- Name - varchar
 	)
+
+	SET @ScheduleId = SCOPE_IDENTITY();
 GO 
 
 CREATE PROCEDURE ScheduleDelete(

@@ -2,6 +2,7 @@ USE hr_bak
 GO
 
 CREATE PROCEDURE EmployeeScheduleInsert(
+	@EmployeeScheduleId int OUTPUT,
 	@EmployeeId int,
 	@ScheduleId int,
 	@Date date
@@ -23,6 +24,8 @@ AS
 	    @ScheduleId, -- ScheduleId - int
 	    @Date -- Date - date
 	)
+
+	SET @EmployeeScheduleId = SCOPE_IDENTITY();
 GO
 
 CREATE PROCEDURE EmployeeScheduleSelectById(

@@ -18,6 +18,7 @@ AS
 GO 
 
 CREATE PROCEDURE TemplateScheduleInsert(
+	@TemplateScheduleId int OUTPUT,
 	@ScheduleId int,
 	@TemplateId int
 )
@@ -36,6 +37,8 @@ AS
 	    @ScheduleId, -- ScheduleId - int
 	    @TemplateId -- TemplateId - int
 	)
+
+	SET @TemplateScheduleId = SCOPE_IDENTITY();
 GO
 
 CREATE PROCEDURE TemplateScheduleUpdate(
