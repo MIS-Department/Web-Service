@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using HR_Department.Models.Tables;
+using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.DataLayer.Repositories
-{
-    public class TemplateRepository : IIO<Template>
+{    
+    public class TemplateRepository : ITemplate
     {
+        private IDbConnection _connection;
+
         public async Task<IEnumerable<Template>> SelectAll()
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 return
-                    await connection.QueryAsync<Template>("TemplateSelectAll", commandType: CommandType.StoredProcedure);
+                    await _connection.QueryAsync<Template>("TemplateSelectAll", commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -25,18 +29,20 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<IEnumerable<Template>> SelectById(int id)
+        public async Task<Template> SelectById(int id)
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@TemplateId", id);
-                return
+                var result =
                     await
-                        connection.QueryAsync<Template>("TemplateSelectById", p,
+                        _connection.QueryAsync<Template>("TemplateSelectById", p,
                             commandType: CommandType.StoredProcedure);
+
+                return result.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -49,7 +55,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@TemplateCode", model.TemplateCode);
@@ -58,7 +64,7 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@EndTime", model.EndTime);
                 p.Add("@TemplateId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                await connection.ExecuteAsync("TemplateInsert", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("TemplateInsert", p, commandType: CommandType.StoredProcedure);
                 return p.Get<int>("@TemplateId");
             }
             catch (Exception)
@@ -72,11 +78,11 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@TemplateId", id);
-                await connection.ExecuteAsync("TemplateDelete", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("TemplateDelete", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
             {
@@ -89,7 +95,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@TemplateId", model.TemplateId);
@@ -98,7 +104,7 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@StartTime", model.StartTime);
                 p.Add("@EndTime", model.EndTime);
 
-                await connection.ExecuteAsync("TemplateUpdate", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("TemplateUpdate", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
             {
@@ -111,13 +117,13 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@Description", description);
 
                 return await
-                    connection.QueryAsync<Template>("TemplateSelectByDescription", p,
+                    _connection.QueryAsync<Template>("TemplateSelectByDescription", p,
                         commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
@@ -131,7 +137,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@StartTime", startTime);
@@ -139,13 +145,27 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 return
                     await
-                        connection.QueryAsync<Template>("SelectByStartEnd", p, commandType: CommandType.StoredProcedure);
+                        _connection.QueryAsync<Template>("SelectByStartEnd", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
             {
                 
                 throw;
             }
-        } 
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connection?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

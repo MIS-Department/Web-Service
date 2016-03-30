@@ -1,21 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using HR_Department.Models.Tables;
+using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class ScheduleRepository : IIO<Schedule>
+    public class ScheduleRepository : ISchedule
     {
+        private IDbConnection _connection;
+
         public async Task<IEnumerable<Schedule>> SelectAll()
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
-                return await connection.QueryAsync<Schedule>("ScheduleAll", commandType: CommandType.StoredProcedure);
+                _connection = Connect.Open();
+                return await _connection.QueryAsync<Schedule>("ScheduleAll", commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -24,18 +28,20 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<IEnumerable<Schedule>> SelectById(int id)
+        public async Task<Schedule> SelectById(int id)
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@ScheduleId", id);
-                return
+                var result =
                     await
-                        connection.QueryAsync<Schedule>("ScheduleSelectById", p,
+                        _connection.QueryAsync<Schedule>("ScheduleSelectById", p,
                             commandType: CommandType.StoredProcedure);
+
+                return result.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -48,13 +54,13 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@Name", model.Name);
                 p.Add("@ScheduleId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                await connection.ExecuteAsync("ScheduleInsert", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("ScheduleInsert", p, commandType: CommandType.StoredProcedure);
 
                 return p.Get<int>("@ScheduleId");
             }
@@ -69,11 +75,11 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@ScheduleId", id);
-                await connection.ExecuteAsync("ScheduleDelete", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("ScheduleDelete", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -86,12 +92,12 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@ScheduleId", model.ScheduleId);
                 p.Add("@Name", model.Name);
-                await connection.ExecuteAsync("ScheduleUpdate", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("ScheduleUpdate", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -104,13 +110,13 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@Name", name);
                 return
                     await
-                        connection.QueryAsync<Schedule>("ScheduleSelectByName", p,
+                        _connection.QueryAsync<Schedule>("ScheduleSelectByName", p,
                             commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
@@ -118,6 +124,20 @@ namespace OG_MFTG.DataLayer.Repositories
                 
                 throw;
             }
-        } 
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connection?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

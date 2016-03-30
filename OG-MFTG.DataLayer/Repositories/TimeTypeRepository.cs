@@ -2,40 +2,50 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Dapper;
 using HR_Department.Models.Tables;
+using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class TimeTypeRepository : IIO<TimeType>
+    public class TimeTypeRepository : ITimeType
     {
+        private IDbConnection _connection;
+
         public async Task<IEnumerable<TimeType>> SelectAll()
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 return
-                    await connection.QueryAsync<TimeType>("TimeTypeSelectAll", commandType: CommandType.StoredProcedure);
+                    await _connection.QueryAsync<TimeType>("TimeTypeSelectAll", commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
                 CreateLogFile err = new CreateLogFile();
-                await err.ErrorLog(ex.Message,"error");
+                await err.ErrorLog(ex.Message, "error");
                 throw;
             }
         }
 
-        public async Task<IEnumerable<TimeType>> SelectById(int id)
+        public async Task<TimeType> SelectById(int id)
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@TimetypeId", id);
 
-                return await connection.QueryAsync<TimeType>("TimeTypeSelectById", p, commandType: CommandType.StoredProcedure);
+                var result =
+                    await
+                        _connection.QueryAsync<TimeType>("TimeTypeSelectById", p,
+                            commandType: CommandType.StoredProcedure);
+
+                return result.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -49,13 +59,13 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@Name", model.Name);
                 p.Add("@TimeTypeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                await connection.ExecuteAsync("TimeTypeInsert", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("TimeTypeInsert", p, commandType: CommandType.StoredProcedure);
 
                 return p.Get<int>("@TimeTypeId");
 
@@ -65,18 +75,18 @@ namespace OG_MFTG.DataLayer.Repositories
                 CreateLogFile err = new CreateLogFile();
                 await err.ErrorLog(ex.Message, "error");
                 throw;
-            }             
+            }
         }
 
         public async Task Delete(int id)
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@TimeTypeId", id);
-                await connection.ExecuteAsync("TimeTypeDelete", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("TimeTypeDelete", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -90,12 +100,12 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@Name", model.Name);
                 p.Add("@TimeTypeId", model.TimeTypeId);
-                await connection.ExecuteAsync("TimeTypeUpdate", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("TimeTypeUpdate", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -109,11 +119,11 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@Name", name);
-                return await connection.QueryAsync<TimeType>("TimeTypeSelectByName", p, commandType: CommandType.StoredProcedure);
+                return await _connection.QueryAsync<TimeType>("TimeTypeSelectByName", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -121,6 +131,20 @@ namespace OG_MFTG.DataLayer.Repositories
                 await err.ErrorLog(ex.Message, "error");
                 throw;
             }
-        } 
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connection?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

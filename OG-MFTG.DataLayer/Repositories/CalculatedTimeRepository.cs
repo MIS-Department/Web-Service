@@ -1,72 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using HR_Department.Models.Tables;
+using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class CalculatedTimeRepository : IIO<CalculatedTime>
+    public class CalculatedTimeRepository : ICalculatedTime
     {
+        private IDbConnection _connection;
+
         public async Task<IEnumerable<CalculatedTime>> SelectAll()
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
 
                 return
                     await
-                        connection.QueryAsync<CalculatedTime>("CalculatedTimeAll",
+                        _connection.QueryAsync<CalculatedTime>("CalculatedTimeAll",
                             commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
             {
-                
+
                 throw;
-            }    
+            }
         }
 
-        public async Task<IEnumerable<CalculatedTime>> SelectById(int id)
+        public async Task<CalculatedTime> SelectById(int id)
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@CalculatedTimeId", id);
 
-                return
+                var result =
                     await
-                        connection.QueryAsync<CalculatedTime>("CalculatedTimeSelectById", p,
+                        _connection.QueryAsync<CalculatedTime>("CalculatedTimeSelectById", p,
                             commandType: CommandType.StoredProcedure);
+
+                return result.FirstOrDefault();
             }
             catch (Exception)
             {
-                
+
                 throw;
-            }    
+            }
         }
 
         public async Task<int> Insert(CalculatedTime model)
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@TimeTypeId", model.TimeTypeId);
                 p.Add("@Value", model.Value);
                 p.Add("@DailyTimeRecordId", model.DateTimeRecordId);
-                p.Add("@CalculatedId",dbType: DbType.Int32, direction: ParameterDirection.Output);
+                p.Add("@CalculatedId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                await connection.ExecuteAsync("CalculatedTimeInsert", commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("CalculatedTimeInsert", commandType: CommandType.StoredProcedure);
                 return p.Get<int>("@CalculatedId");
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }
@@ -75,16 +80,16 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@CalculatedTimeId", id);
 
-                await connection.ExecuteAsync("CalculatedTimeDelete", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("CalculatedTimeDelete", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }
@@ -93,7 +98,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@CalculatedTimeId", model.CalculatedTimeId);
@@ -101,13 +106,27 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@Value", model.Value);
                 p.Add("@DailyTimeRecordId", model.DateTimeRecordId);
 
-                await connection.ExecuteAsync("CalculatedTimeUpdate", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("CalculatedTimeUpdate", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
             {
-                
+
                 throw;
-            }   
+            }
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connection?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

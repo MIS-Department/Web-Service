@@ -12,41 +12,42 @@ namespace OG_MFTG.HR_WebApi.Controllers
 {
     public class TimeTypeController : ApiController
     {
-        private IIO<TimeType> _repository; 
+        private TimeTypeRepository _repository; 
 
         // GET: api/TimeType
-        public async Task<IEnumerable<TimeType>> Get()
+        public async Task<IEnumerable<TimeType>> GetAllTimeType()
         {
             _repository = new TimeTypeRepository();
             return await _repository.SelectAll();
         }
 
         // GET: api/TimeType/5
-        public async Task<IEnumerable<TimeType>> Get(int id)
+        public async Task<TimeType> GetTimeType(int id)
         {
             _repository = new TimeTypeRepository();
-            var item = _repository.SelectById(id);
+            var item = await _repository.SelectById(id);
 
             if (item == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return await item;
+            return item;
+        }
+
+        public async Task<IEnumerable<TimeType>> GetTimeTypeByName(string name)
+        {
+            _repository = new TimeTypeRepository();
+
+            return await _repository.Search(name);
+
         }
 
         // POST: api/TimeType      
-        public async Task<HttpResponseMessage> Post(TimeType model)
-        {
-            _repository = new TimeTypeRepository();
-            await _repository.Insert(model);
-
-            var response = Request.CreateResponse(HttpStatusCode.Created, model);
-
-            string uri = Url.Link("DefaultApi", new {id = model.TimeTypeId});
-            response.Headers.Location = new Uri(uri);
-            return response;
-        }
+        //public async Task<HttpResponseMessage> Post(TimeType model)
+        //{
+            
+        //}
 
         // PUT: api/TimeType/5
         public void Put(int id, [FromBody]string value)

@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using HR_Department.Models.Tables;
+using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class DailyTimeRecordRepository : IIO<DailyTimeRecord>
+    public class DailyTimeRecordRepository : IDailyTimeRecord
     {
+        private IDbConnection _connection;
+
         public async Task<IEnumerable<DailyTimeRecord>> SelectAll()
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
 
                 return
                     await
-                        connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordAll",
+                        _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordAll",
                             commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
@@ -28,18 +32,20 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<IEnumerable<DailyTimeRecord>> SelectById(int id)
+        public async Task<DailyTimeRecord> SelectById(int id)
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@DailyTimeRecordId", id);
-                return
+
+                var result =
                     await
-                        connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectById", p,
+                        _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectById", p,
                             commandType: CommandType.StoredProcedure);
+                return result.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -52,7 +58,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@EmployeeId", model.EmployeeId);
@@ -61,7 +67,7 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@Time", model.Time);
                 p.Add("@DailyTimeRecordId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                await connection.ExecuteAsync("DailyTimeRecordInsert", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("DailyTimeRecordInsert", p, commandType: CommandType.StoredProcedure);
 
                 return p.Get<int>("@DailyTimeRecordId");
             }
@@ -76,11 +82,11 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@DailyTimeRecordId", id);
-                await connection.ExecuteAsync("DailyTimeRecordDelete", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("DailyTimeRecordDelete", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -93,7 +99,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@DailyTimeRecordId", model.DailyTimeRecordId);
@@ -101,7 +107,7 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@TimeCategoryId", model.TimeCategoryId);
                 p.Add("@DateCreated", model.DateCreated);
                 p.Add("@Time", model.Time);
-                await connection.ExecuteAsync("DailyTimeRecordUpdate", p, commandType: CommandType.StoredProcedure);
+                await _connection.ExecuteAsync("DailyTimeRecordUpdate", p, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -114,13 +120,13 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@EmployeeId", employeeId);
                 return
                     await
-                        connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectByEmployeeId", p,
+                        _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectByEmployeeId", p,
                             commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
@@ -134,14 +140,14 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             try
             {
-                var connection = new SqlConnection(ConfigurationSettings.GetConnectionString());
+                _connection = Connect.Open();
                 var p = new DynamicParameters();
 
                 p.Add("@EmployeeNumber", number);
 
                 return
                     await
-                        connection.QueryAsync<Employee>("DailyTimeRecordEmployeeNumber", p,
+                        _connection.QueryAsync<Employee>("DailyTimeRecordEmployeeNumber", p,
                             commandType: CommandType.StoredProcedure);
             }
             catch (Exception)
@@ -150,5 +156,20 @@ namespace OG_MFTG.DataLayer.Repositories
                 throw;
             }
         }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connection?.Dispose();
+            }    
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
     }
 }
