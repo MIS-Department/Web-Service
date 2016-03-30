@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace OG_MFTG.DataLayer
+namespace OG_MFTG.DataLayer.Util
 {
 
     public class CreateLogFile

@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace OG_MFTG.DataLayer
+namespace OG_MFTG.DataLayer.Util
 {
     public class ConfigurationSettings
     {

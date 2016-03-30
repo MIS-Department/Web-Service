@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using HR_Department.Models.Tables;
-using OG_MFTG.DataLayer;
 using OG_MFTG.DataLayer.Repositories;
 
 namespace OG_MFTG.HR_WebApi.Controllers
