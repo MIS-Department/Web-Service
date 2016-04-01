@@ -7,7 +7,7 @@ using HR_Department.Models.Tables;
 
 namespace OG_MFTG.DataLayer.Interfaces
 {
-    public interface IDailyTimeRecord : IDisposable
+    public interface IDailyTimeRecordRepository : IDisposable
     {
         Task<IEnumerable<DailyTimeRecord>> SelectAll();
         Task<DailyTimeRecord> SelectById(int id);

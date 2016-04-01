@@ -5,7 +5,7 @@ using HR_Department.Models.Tables;
 
 namespace OG_MFTG.DataLayer.Interfaces
 {
-    public interface ITemplateSchedule : IDisposable
+    public interface ITemplateScheduleRepository : IDisposable
     {
         Task<IEnumerable<TemplateSchedule>> SelectAll();
         Task<TemplateSchedule> SelectById(int id);

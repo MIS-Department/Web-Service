@@ -12,7 +12,7 @@ using OG_MFTG.DataLayer.Util;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class TimeTypeRepository : ITimeType
+    public class TimeTypeRepository : ITimeTypeRepository
     {
         private IDbConnection _connection;
 

@@ -11,7 +11,7 @@ using OG_MFTG.DataLayer.Util;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class DailyTimeRecordRepository : IDailyTimeRecord
+    public class DailyTimeRecordRepository : IDailyTimeRecordRepository
     {
         private IDbConnection _connection;
 

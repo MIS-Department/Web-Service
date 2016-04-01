@@ -55,14 +55,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ICalculatedTime.cs" />
-    <Compile Include="Interfaces\IDailyTimeRecord.cs" />
-    <Compile Include="Interfaces\IEmployeeSchedule.cs" />
-    <Compile Include="Interfaces\ISchedule.cs" />
-    <Compile Include="Interfaces\ITemplate.cs" />
-    <Compile Include="Interfaces\ITemplateSchedule.cs" />
-    <Compile Include="Interfaces\ITimeCategory.cs" />
-    <Compile Include="Interfaces\ITimeType.cs" />
+    <Compile Include="Interfaces\ICalculatedTimeRepository.cs" />
+    <Compile Include="Interfaces\IDailyTimeRecordRepository.cs" />
+    <Compile Include="Interfaces\IEmployeeScheduleRepository.cs" />
+    <Compile Include="Interfaces\IScheduleRepository.cs" />
+    <Compile Include="Interfaces\ITemplateRepository.cs" />
+    <Compile Include="Interfaces\ITemplateScheduleRepository.cs" />
+    <Compile Include="Interfaces\ITimeCategoryRepository.cs" />
+    <Compile Include="Interfaces\ITimeTypeRepository.cs" />
     <Compile Include="Util\ConfigurationSettings.cs" />
     <Compile Include="Util\Connect.cs" />
     <Compile Include="Util\CreateLogFile.cs" />

@@ -10,7 +10,7 @@ using OG_MFTG.DataLayer.Util;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class CalculatedTimeRepository : ICalculatedTime
+    public class CalculatedTimeRepository : ICalculatedTimeRepository
     {
         private IDbConnection _connection;
 

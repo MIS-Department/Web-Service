@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Routing;
+﻿using System.Web.Http;
 
 namespace OG_MFTG.HR_WebApi
 {
@@ -11,6 +6,7 @@ namespace OG_MFTG.HR_WebApi
     {
         protected void Application_Start()
         {
+            //SimpleInjectorWebApiInitializer.Initialize();
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

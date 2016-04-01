@@ -5,7 +5,7 @@ using HR_Department.Models.Tables;
 
 namespace OG_MFTG.DataLayer.Interfaces
 {
-    public interface ITimeCategory : IDisposable
+    public interface ITimeCategoryRepository : IDisposable
     {
         Task<IEnumerable<TimeCategory>> SelectAll();
         Task<TimeCategory> SelectById(int id);

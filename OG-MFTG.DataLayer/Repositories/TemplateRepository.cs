@@ -11,7 +11,7 @@ using OG_MFTG.DataLayer.Util;
 
 namespace OG_MFTG.DataLayer.Repositories
 {    
-    public class TemplateRepository : ITemplate
+    public class TemplateRepository : ITemplateRepository
     {
         private IDbConnection _connection;
 

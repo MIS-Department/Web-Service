@@ -11,7 +11,7 @@ using OG_MFTG.DataLayer.Util;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class TemplateScheduleRepository : ITemplateSchedule
+    public class TemplateScheduleRepository : ITemplateScheduleRepository
     {
         private IDbConnection _connection;
 
