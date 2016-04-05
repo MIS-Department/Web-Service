@@ -3,12 +3,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Management;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.HR_WebApi.Controllers
 {
+    [RoutePrefix("hrdapi/dailytimerecord")]
     public class DailyTimeRecordController : ApiController
     {
         private readonly IDailyTimeRecordRepository _repository;
@@ -19,12 +19,14 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         public async Task<IEnumerable<DailyTimeRecord>> GetAllDailyTimeRecord()
         {
             return await _repository.SelectAll();
         }
 
         [HttpGet]
+        [Route("{id:int:min(1)}")]
         [ResponseType(typeof(DailyTimeRecord))]
         public async Task<IHttpActionResult> GetDailyTimeRecord(int? id)
         {
@@ -41,6 +43,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> PostDailyTimeRecord(DailyTimeRecord model)
         {
@@ -54,6 +57,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpPut]
+        [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> PutDailyTimeRecord(DailyTimeRecord model)
         {
@@ -71,6 +75,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpDelete]
+        [Route("{id:int:min(1)}")]
         [ResponseType(typeof (HttpResponseMessage))]
         public async Task<IHttpActionResult> DeleteDailyTimeRecord(int? id)
         {
