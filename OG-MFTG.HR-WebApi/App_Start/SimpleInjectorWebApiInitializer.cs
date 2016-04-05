@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Web.Http;
 using OG_MFTG.DataLayer.Interfaces;
 using OG_MFTG.DataLayer.Repositories;
@@ -31,11 +30,20 @@ namespace OG_MFTG.HR_WebApi
         }
      
         private static void InitializeContainer(Container container)
-        {   
+        {
             // For instance:
             // container.Register<IUserRepository, SqlUserRepository>(Lifestyle.Scoped);
-            container.Register<ITimeCategoryRepository, TimeCategoryRepository>(Lifestyle.Scoped);
             container.RegisterSingleton<IRequestMessageProvider>(new RequestMessageProvider(container));
+
+            
+            container.Register<ICalculatedTimeRepository, CalculatedTimeRepository>(Lifestyle.Singleton);
+            container.Register<IDailyTimeRecordRepository, DailyTimeRecordRepository>(Lifestyle.Singleton);
+            container.Register<IEmployeeScheduleRepository, EmployeeScheduleRepository>(Lifestyle.Singleton);
+            container.Register<IScheduleRepository, ScheduleRepository>(Lifestyle.Singleton);
+            container.Register<ITemplateRepository, TemplateRepository>(Lifestyle.Singleton);
+            container.Register<ITemplateScheduleRepository, TemplateScheduleRepository>(Lifestyle.Singleton);
+            container.Register<ITimeCategoryRepository, TimeCategoryRepository>(Lifestyle.Scoped);
+            container.Register<ITimeTypeRepository, TimeTypeRepository>(Lifestyle.Singleton);
         }
     }
 }

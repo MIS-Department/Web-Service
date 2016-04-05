@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -9,26 +8,24 @@ using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.HR_WebApi.Controllers
 {
-    public class TimeCategoryController : ApiController
+    public class CalculatedTimeController : ApiController
     {
-        private readonly ITimeCategoryRepository _repository;
+        private readonly ICalculatedTimeRepository _repository;
 
-        public TimeCategoryController(ITimeCategoryRepository repository)
+        public CalculatedTimeController(ICalculatedTimeRepository repository)
         {
             _repository = repository;
         }
 
-        // GET: api/TimeCategory
         [HttpGet]
-        public async Task<IEnumerable<TimeCategory>> GetAllTimeCategory()
+        public async Task<IEnumerable<CalculatedTime>> GetAllCalculatedTime()
         {
             return await _repository.SelectAll();
         }
 
-        // GET: api/TimeCategory/5
         [HttpGet]
-        [ResponseType(typeof(TimeCategory))]
-        public async Task<IHttpActionResult> GetTimeCategory(int? id)
+        [ResponseType(typeof(CalculatedTime))]
+        public async Task<IHttpActionResult> GetCalculatedTime(int? id)
         {
             if (id == null)
             {
@@ -42,56 +39,40 @@ namespace OG_MFTG.HR_WebApi.Controllers
             return Ok(model);
         }
 
-        // POST: api/TimeCategory
         [HttpPost]
         [ResponseType(typeof(HttpResponseMessage))]
-        public async Task<IHttpActionResult> PostTimeCategory(TimeCategory model)
+        public async Task<IHttpActionResult> PostCalculatedTime(CalculatedTime model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                var id = await _repository.Insert(model);
-
-                string uri = Url.Link("DefaultApi", new { id });
-
-                return Created(uri, model.TimeCategoryId = id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            var id = await _repository.Insert(model);
+            string uri = Url.Link("DefaultApi", new { id });
+            return Created(uri, model.TimeTypeId = id);
         }
 
-        // PUT: api/TimeCategory/5
         [HttpPut]
         [ResponseType(typeof(HttpResponseMessage))]
-        public async Task<IHttpActionResult> PutTimeCategory(TimeCategory model)
-        {  
-            var result = await _repository.SelectById(model.TimeCategoryId);
+        public async Task<IHttpActionResult> PutCalculatedTime(CalculatedTime model)
+        {   
+            var result = await _repository.SelectById(model.CalculatedTimeId);
             if (result == null)
             {
                 return NotFound();
             }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }        
+            }
             await _repository.Update(model);
-
             return Ok(model);
         }
 
-        // DELETE: api/TimeCategory/5
         [HttpDelete]
-        [ResponseType(typeof(HttpResponseMessage))]        
-        public async Task<IHttpActionResult> DeleteTimeCategory(int? id)
+        [ResponseType(typeof(HttpResponseMessage))]
+        public async Task<IHttpActionResult> DeleteCalculatedTime(int? id)
         {
             if (id == null)
             {
@@ -102,7 +83,6 @@ namespace OG_MFTG.HR_WebApi.Controllers
             {
                 return NotFound();
             }
-
             await _repository.Delete(id);
             return Ok();
         }

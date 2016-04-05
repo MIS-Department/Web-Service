@@ -30,7 +30,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<Template> SelectById(int id)
+        public async Task<Template> SelectById(int? id)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             try
             {

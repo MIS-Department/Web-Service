@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -32,7 +31,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<EmployeeSchedule> SelectById(int id)
+        public async Task<EmployeeSchedule> SelectById(int? id)
         {
             try
             {
@@ -78,7 +77,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             try
             {
@@ -139,7 +138,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<IEnumerable<EmployeeSchedule>> SelectByScheduleId(int scheduleId)
+        public async Task<EmployeeSchedule> SelectByScheduleId(int? scheduleId)
         {
             try
             {
@@ -148,10 +147,11 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 p.Add("@ScheduleId", scheduleId);
 
-                return
+                var result =
                     await
                         _connection.QueryAsync<EmployeeSchedule>("EmployeeScheduleSelectByScheduleId", p,
                             commandType: CommandType.StoredProcedure);
+                return result.FirstOrDefault();
             }
             catch (Exception)
             {
@@ -160,7 +160,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<IEnumerable<EmployeeSchedule>> SelectByEmployee(int employeeId)
+        public async Task<EmployeeSchedule> SelectByEmployee(int? employeeId)
         {
             try
             {
@@ -168,10 +168,11 @@ namespace OG_MFTG.DataLayer.Repositories
                 var p = new DynamicParameters();
 
                 p.Add("@EmployeeId");
-                return
+                var result =
                     await
                         _connection.QueryAsync<EmployeeSchedule>("EmployeeScheduleSelectByEmployee", p,
                             commandType: CommandType.StoredProcedure);
+                return result.FirstOrDefault();
             }
             catch (Exception)
             {

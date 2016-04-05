@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Dapper;
 using HR_Department.Models.Tables;
@@ -32,7 +30,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<TimeType> SelectById(int id)
+        public async Task<TimeType> SelectById(int? id)
         {
             try
             {
@@ -79,7 +77,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             try
             {

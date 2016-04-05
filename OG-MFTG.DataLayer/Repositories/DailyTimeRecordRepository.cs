@@ -33,7 +33,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<DailyTimeRecord> SelectById(int id)
+        public async Task<DailyTimeRecord> SelectById(int? id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<IEnumerable<DailyTimeRecord>> SelectByEmployeeId(int employeeId)
+        public async Task<DailyTimeRecord> SelectByEmployeeId(int? employeeId)
         {
             try
             {
@@ -125,10 +125,11 @@ namespace OG_MFTG.DataLayer.Repositories
                 var p = new DynamicParameters();
 
                 p.Add("@EmployeeId", employeeId);
-                return
+                var result =
                     await
                         _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectByEmployeeId", p,
                             commandType: CommandType.StoredProcedure);
+                return result.FirstOrDefault();
             }
             catch (Exception ex)
             {

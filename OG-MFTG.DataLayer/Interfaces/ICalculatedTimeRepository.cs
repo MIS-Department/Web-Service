@@ -8,9 +8,9 @@ namespace OG_MFTG.DataLayer.Interfaces
     public interface ICalculatedTimeRepository : IDisposable
     {
         Task<IEnumerable<CalculatedTime>> SelectAll();
-        Task<CalculatedTime> SelectById(int id);
+        Task<CalculatedTime> SelectById(int? id);
         Task<int> Insert(CalculatedTime model);
-        Task Delete(int id);
+        Task Delete(int? id);
         Task Update(CalculatedTime model);
     }
 }
