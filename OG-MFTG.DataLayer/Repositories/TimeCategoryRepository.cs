@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -11,7 +10,7 @@ using OG_MFTG.DataLayer.Util;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class TimeCategoryRepository : ITimeCategory
+    public class TimeCategoryRepository : ITimeCategoryRepository
     {
         private IDbConnection _connection;
 
@@ -33,7 +32,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }    
 
-        public async Task<TimeCategory> SelectById(int id)
+        public async Task<TimeCategory> SelectById(int? id)
         {
             try
             {
@@ -76,7 +75,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             try
             {

@@ -1,50 +1,34 @@
 ﻿using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
-using HR_Department.Models.Tables;
-using OG_MFTG.DataLayer.Repositories;
+using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.HR_WebApi.Controllers
 {
     public class TimeTypeController : ApiController
     {
-        private TimeTypeRepository _repository; 
+        private readonly ITimeTypeRepository _repository;
+
+        public TimeTypeController(ITimeTypeRepository repository)
+        {
+            _repository = repository;
+        }
 
         // GET: api/TimeType
-        public async Task<IEnumerable<TimeType>> GetAllTimeType()
+        public IEnumerable<string> Get()
         {
-            _repository = new TimeTypeRepository();
-            return await _repository.SelectAll();
+            return new string[] { "value1", "value2" };
         }
 
         // GET: api/TimeType/5
-        public async Task<TimeType> GetTimeType(int id)
+        public string Get(int id)
         {
-            _repository = new TimeTypeRepository();
-            var item = await _repository.SelectById(id);
-
-            if (item == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return item;
+            return "value";
         }
 
-        public async Task<IEnumerable<TimeType>> GetTimeTypeByName(string name)
+        // POST: api/TimeType
+        public void Post([FromBody]string value)
         {
-            _repository = new TimeTypeRepository();
-
-            return await _repository.Search(name);
-
         }
-
-        // POST: api/TimeType      
-        //public async Task<HttpResponseMessage> Post(TimeType model)
-        //{
-            
-        //}
 
         // PUT: api/TimeType/5
         public void Put(int id, [FromBody]string value)

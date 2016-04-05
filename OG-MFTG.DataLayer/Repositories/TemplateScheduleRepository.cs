@@ -11,7 +11,7 @@ using OG_MFTG.DataLayer.Util;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
-    public class TemplateScheduleRepository : ITemplateSchedule
+    public class TemplateScheduleRepository : ITemplateScheduleRepository
     {
         private IDbConnection _connection;
 
@@ -32,7 +32,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<TemplateSchedule> SelectById(int id)
+        public async Task<TemplateSchedule> SelectById(int? id)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        public async Task<TemplateSchedule> SelectByScheduleId(int scheduleId)
+        public async Task<TemplateSchedule> SelectByScheduleId(int? scheduleId)
         {
             try
             {
