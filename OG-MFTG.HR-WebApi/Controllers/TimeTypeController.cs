@@ -4,6 +4,7 @@ using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.HR_WebApi.Controllers
 {
+    [RoutePrefix("hrdapi/timetype")]
     public class TimeTypeController : ApiController
     {
         private readonly ITimeTypeRepository _repository;

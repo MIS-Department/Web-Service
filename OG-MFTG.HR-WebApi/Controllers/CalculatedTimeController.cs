@@ -8,6 +8,7 @@ using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.HR_WebApi.Controllers
 {
+    [RoutePrefix("hrdapi/calculatedtime")]
     public class CalculatedTimeController : ApiController
     {
         private readonly ICalculatedTimeRepository _repository;
@@ -18,12 +19,14 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         public async Task<IEnumerable<CalculatedTime>> GetAllCalculatedTime()
         {
             return await _repository.SelectAll();
         }
 
         [HttpGet]
+        [Route("{id:int:min(1)}")]
         [ResponseType(typeof(CalculatedTime))]
         public async Task<IHttpActionResult> GetCalculatedTime(int? id)
         {
@@ -40,6 +43,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> PostCalculatedTime(CalculatedTime model)
         {
@@ -54,6 +58,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpPut]
+        [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> PutCalculatedTime(CalculatedTime model)
         {   
@@ -70,8 +75,9 @@ namespace OG_MFTG.HR_WebApi.Controllers
             return Ok(model);
         }
 
-        [HttpDelete]
+        [HttpDelete]    
         [ResponseType(typeof(HttpResponseMessage))]
+        [Route("{id:int:min(1)}")]
         public async Task<IHttpActionResult> DeleteCalculatedTime(int? id)
         {
             if (id == null)

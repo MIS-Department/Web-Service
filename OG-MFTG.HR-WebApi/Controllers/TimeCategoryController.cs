@@ -9,6 +9,7 @@ using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.HR_WebApi.Controllers
 {
+    [RoutePrefix("hrdapi/timecategory")]
     public class TimeCategoryController : ApiController
     {
         private readonly ITimeCategoryRepository _repository;
@@ -20,6 +21,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         // GET: api/TimeCategory
         [HttpGet]
+        [Route("")]
         public async Task<IEnumerable<TimeCategory>> GetAllTimeCategory()
         {
             return await _repository.SelectAll();
@@ -27,6 +29,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         // GET: api/TimeCategory/5
         [HttpGet]
+        [Route("{id:int:min(1)}")]
         [ResponseType(typeof(TimeCategory))]
         public async Task<IHttpActionResult> GetTimeCategory(int? id)
         {
@@ -44,6 +47,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         // POST: api/TimeCategory
         [HttpPost]
+        [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> PostTimeCategory(TimeCategory model)
         {
@@ -70,6 +74,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         // PUT: api/TimeCategory/5
         [HttpPut]
+        [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> PutTimeCategory(TimeCategory model)
         {  
@@ -90,6 +95,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         // DELETE: api/TimeCategory/5
         [HttpDelete]
+        [Route("{id:int:min(1}")]
         [ResponseType(typeof(HttpResponseMessage))]        
         public async Task<IHttpActionResult> DeleteTimeCategory(int? id)
         {
