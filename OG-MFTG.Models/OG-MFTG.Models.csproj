@@ -36,10 +36,6 @@
       <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DapperExtensions, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperExtensions.1.4.4\lib\net40\DapperExtensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="HR-Department.Models">
       <HintPath>..\..\HR-Department\HR-Department.Models\bin\Debug\HR-Department.Models.dll</HintPath>
     </Reference>
@@ -60,6 +56,7 @@
   <ItemGroup>
     <Content Include="Scripts\CalculatedTimeProcedure.sql" />
     <Content Include="Scripts\DailyTimeRecordProcedure.sql" />
+    <Content Include="Scripts\EmployeeProcedure.sql" />
     <Content Include="Scripts\EmployeeScheduleProcedure.sql" />
     <Content Include="Scripts\ScheduleProceduere.sql" />
     <Content Include="Scripts\TemplateProcedure.sql" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -157,6 +156,29 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<DailyTimeRecord>> SelectEmplyeeIdDateCreated(int? id, DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                _connection = Connect.Open();
+                var p = new DynamicParameters();
+
+                p.Add("@EmployeeId", id);
+                p.Add("@StartDate", startDate);
+                p.Add("@EndDate", endDate);
+
+                return
+                    await
+                        _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectByEmployeeIdDateCreated", p,
+                            commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }    
         }
 
         protected void Dispose(bool disposing)

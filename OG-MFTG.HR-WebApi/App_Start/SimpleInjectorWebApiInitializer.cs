@@ -44,6 +44,7 @@ namespace OG_MFTG.HR_WebApi
             container.Register<ITemplateScheduleRepository, TemplateScheduleRepository>(Lifestyle.Singleton);
             container.Register<ITimeCategoryRepository, TimeCategoryRepository>(Lifestyle.Scoped);
             container.Register<ITimeTypeRepository, TimeTypeRepository>(Lifestyle.Singleton);
+            container.Register<IEmployeeRepository, EmployeeRepository>(Lifestyle.Singleton);
         }
     }
 }
