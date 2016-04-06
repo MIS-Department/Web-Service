@@ -43,7 +43,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HR-Department.Models">
+    <Reference Include="HR-Department.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\HR-Department\HR-Department.Models\bin\Debug\HR-Department.Models.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -113,6 +114,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CalculatedTimeController.cs" />
     <Compile Include="Controllers\DailyTimeRecordController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\TimeCategoryController.cs" />
     <Compile Include="Controllers\TimeTypeController.cs" />
     <Compile Include="Global.asax.cs">

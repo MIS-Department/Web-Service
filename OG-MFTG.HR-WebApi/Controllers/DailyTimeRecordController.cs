@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -26,7 +27,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id:int:min(1)}")]
+        [Route("{id:int}")]
         [ResponseType(typeof(DailyTimeRecord))]
         public async Task<IHttpActionResult> GetDailyTimeRecord(int? id)
         {
@@ -75,7 +76,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route("{id:int:min(1)}")]
+        [Route("{id:int}")]
         [ResponseType(typeof (HttpResponseMessage))]
         public async Task<IHttpActionResult> DeleteDailyTimeRecord(int? id)
         {
@@ -90,9 +91,33 @@ namespace OG_MFTG.HR_WebApi.Controllers
             }
             await _repository.Delete(id);
             return Ok();
-        } 
+        }
 
-        //[HttpGet]
-        //public async Task<IHttpActionResult>  
+        [HttpGet]
+        [Route("{id:int}/employee")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        public async Task<IHttpActionResult> GetByEmployeeId(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var result = await _repository.SelectByEmployeeId(id);
+            return Ok(result);
+        }
+
+
+        //[ResponseType(typeof(IEnumerable<DailyTimeRecord>))]
+        //[Route("{id:int}/startdate/{startdate:datetime}/enddate/{enddate:datetime}")]
+        //public async Task<IEnumerable<DailyTimeRecord>> GetByEmployeeIdDateCreated(int? id, DateTime startDate,
+        //    DateTime endTime)
+        //{  
+
+        //    if (id == null)
+        //    {
+        //        return
+        //    }    
+
+        //}
     }
 }

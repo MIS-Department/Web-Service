@@ -28,6 +28,7 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception)
             {
 
+
                 throw;
             }
         }

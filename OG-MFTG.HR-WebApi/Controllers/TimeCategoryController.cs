@@ -29,7 +29,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         // GET: api/TimeCategory/5
         [HttpGet]
-        [Route("{id:int:min(1)}")]
+        [Route("{id:int}")]
         [ResponseType(typeof(TimeCategory))]
         public async Task<IHttpActionResult> GetTimeCategory(int? id)
         {
@@ -95,7 +95,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         // DELETE: api/TimeCategory/5
         [HttpDelete]
-        [Route("{id:int:min(1}")]
+        [Route("{id:int}")]
         [ResponseType(typeof(HttpResponseMessage))]        
         public async Task<IHttpActionResult> DeleteTimeCategory(int? id)
         {

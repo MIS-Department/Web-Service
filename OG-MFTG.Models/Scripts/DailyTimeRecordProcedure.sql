@@ -71,15 +71,13 @@ AS
 GO
 
 CREATE PROCEDURE DailyTimeRecordSelectByEmployeeId(
-	@EmployeeId int,
-	@StartDate datetime,
-	@EndDate dateTime
+	@EmployeeId int
 )
 AS
 	SET NOCOUNT ON
 
 	SELECT * FROM dbo.DailyTimeRecord dtr
-	WHERE EmployeeId = @EmployeeId AND DateCreated BETWEEN @StartDate AND @EndDate
+	WHERE EmployeeId = @EmployeeId
 GO 
 
 CREATE PROCEDURE DailyTimeRecordSelectById(
@@ -98,4 +96,15 @@ CREATE PROCEDURE DailyTimeRecordEmployeeNumber(
 AS
 	SELECT e.employee_id, e.middleName, e.firstname, e.lastname, e.image_employee FROM dbo.employee e
 	WHERE employee_number = @EmployeeNumber AND e.is_resigned = 0
+GO
+Create PROCEDURE [dbo].[DailyTimeRecordSelectByEmployeeIdDateCreated](
+	@EmployeeId int,
+	@StartDate datetime,
+	@EndDate dateTime
+)
+AS
+	SET NOCOUNT ON
+
+	SELECT * FROM dbo.DailyTimeRecord dtr
+	WHERE EmployeeId = @EmployeeId  AND DateCreated BETWEEN @StartDate AND @EndDate
 GO

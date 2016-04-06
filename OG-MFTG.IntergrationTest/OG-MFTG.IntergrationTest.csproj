@@ -36,10 +36,6 @@
       <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DapperExtensions, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperExtensions.1.4.4\lib\net40\DapperExtensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="HR-Department.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\HR-Department\HR-Department.Models\bin\Debug\HR-Department.Models.dll</HintPath>
@@ -57,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeCategoryTest.cs" />
     <Compile Include="TimeTypeTest.cs" />

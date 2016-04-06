@@ -26,7 +26,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id:int:min(1)}")]
+        [Route("{id:int}")]
         [ResponseType(typeof(CalculatedTime))]
         public async Task<IHttpActionResult> GetCalculatedTime(int? id)
         {
@@ -77,7 +77,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
         [HttpDelete]    
         [ResponseType(typeof(HttpResponseMessage))]
-        [Route("{id:int:min(1)}")]
+        [Route("{id:int}")]
         public async Task<IHttpActionResult> DeleteCalculatedTime(int? id)
         {
             if (id == null)
