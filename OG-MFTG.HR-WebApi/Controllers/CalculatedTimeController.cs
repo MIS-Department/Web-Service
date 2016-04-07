@@ -45,7 +45,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         [HttpPost]
         [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
-        public async Task<IHttpActionResult> PostCalculatedTime(CalculatedTime model)
+        public async Task<IHttpActionResult> PostCalculatedTime([FromBody]CalculatedTime model)
         {
             if (!ModelState.IsValid)
             {
@@ -53,24 +53,25 @@ namespace OG_MFTG.HR_WebApi.Controllers
             }
 
             var id = await _repository.Insert(model);
-            string uri = Url.Link("DefaultApi", new { id });
+            string uri = Url.Link("hrdapi", new { id });
             return Created(uri, model.TimeTypeId = id);
         }
 
         [HttpPut]
         [Route("")]
         [ResponseType(typeof(HttpResponseMessage))]
-        public async Task<IHttpActionResult> PutCalculatedTime(CalculatedTime model)
-        {   
+        public async Task<IHttpActionResult> PutCalculatedTime([FromBody]CalculatedTime model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var result = await _repository.SelectById(model.CalculatedTimeId);
             if (result == null)
             {
                 return NotFound();
             }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
             await _repository.Update(model);
             return Ok(model);
         }

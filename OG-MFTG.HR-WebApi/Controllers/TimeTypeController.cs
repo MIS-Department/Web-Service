@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
+using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
 
 namespace OG_MFTG.HR_WebApi.Controllers
@@ -15,30 +20,83 @@ namespace OG_MFTG.HR_WebApi.Controllers
         }
 
         // GET: api/TimeType
-        public IEnumerable<string> Get()
+        [HttpGet]
+        [Route("")]
+        public async Task<IEnumerable<TimeType>> GetAllTimeType()
         {
-            return new string[] { "value1", "value2" };
+            return await _repository.SelectAll();
         }
 
         // GET: api/TimeType/5
-        public string Get(int id)
+        [HttpGet]
+        [Route("{id:int}")]
+        [ResponseType(typeof(TimeType))]
+        public async Task<IHttpActionResult> GetTimeType(int? id)
         {
-            return "value";
+            if (id == null)
+            {
+                return BadRequest("TimeType id null");
+            }
+            var model = await _repository.SelectById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return Ok(model);
+
         }
 
         // POST: api/TimeType
-        public void Post([FromBody]string value)
+        [HttpPost]
+        [Route("")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        public async Task<IHttpActionResult> PostTimeType([FromBody]TimeType model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var id = await _repository.Insert(model);
+            string uri = Url.Link("hrdapi", new { id });
+            return Created(uri, model.TimeTypeId = id);
         }
 
         // PUT: api/TimeType/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        [Route("")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        public async Task<IHttpActionResult> PutTimeType([FromBody]TimeType model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _repository.SelectById(model.TimeTypeId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            await _repository.Update(model);
+            return Ok(model);
         }
 
         // DELETE: api/TimeType/5
-        public void Delete(int id)
+        [HttpDelete]
+        [ResponseType(typeof(HttpResponseMessage))]
+        [Route("{id:int}")]
+        public async Task<IHttpActionResult> DeleteTimeType(int? id)
         {
+            if (id == null)
+            {
+                return BadRequest("TimeTypeId is null");
+            }
+            var model = await _repository.SelectById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            await _repository.Delete(id);
+            return Ok();
         }
     }
 }

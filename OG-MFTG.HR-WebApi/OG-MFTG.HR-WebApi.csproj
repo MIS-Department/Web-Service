@@ -115,6 +115,8 @@
     <Compile Include="Controllers\CalculatedTimeController.cs" />
     <Compile Include="Controllers\DailyTimeRecordController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeScheduleController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TimeCategoryController.cs" />
     <Compile Include="Controllers\TimeTypeController.cs" />
     <Compile Include="Global.asax.cs">
