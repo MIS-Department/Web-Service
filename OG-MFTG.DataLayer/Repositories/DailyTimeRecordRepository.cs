@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -29,7 +30,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -40,18 +42,18 @@ namespace OG_MFTG.DataLayer.Repositories
                 _connection = Connect.Open();
                 var p = new DynamicParameters();
 
-                p.Add("@DailyTimeRecordId", id);
+                p.Add("@EmployeeId", id);
 
                 var result =
                     await
-                        _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectById", p,
+                        _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordTimeCategory", p,
                             commandType: CommandType.StoredProcedure);
                 return result.FirstOrDefault();
             }
             catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -75,7 +77,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return ex.HResult;
             }
         }
 
@@ -92,7 +95,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                
             }
         }
 
@@ -113,7 +117,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+               
             }
         }
 
@@ -134,7 +139,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -153,10 +159,11 @@ namespace OG_MFTG.DataLayer.Repositories
                             commandType: CommandType.StoredProcedure);
                 return result.FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -176,10 +183,10 @@ namespace OG_MFTG.DataLayer.Repositories
                         _connection.QueryAsync<DailyTimeRecord>("DailyTimeRecordSelectByEmployeeIdDateCreated", p,
                             commandType: CommandType.StoredProcedure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }    
         }
 
@@ -201,10 +208,9 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception)
             {
-                
-                throw;
-            }
-        }  
+                _connection?.Dispose();
+            }    
+        }
 
 
 

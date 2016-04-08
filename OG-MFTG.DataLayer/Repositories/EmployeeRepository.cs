@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -23,12 +24,12 @@ namespace OG_MFTG.DataLayer.Repositories
                     await
                         _connection.QueryAsync<Employee>("EmployeeSelectAll", commandType: CommandType.StoredProcedure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                
                 throw;
-            }
-        }
+            }    
+        }  
         public async Task<Employee> SelectById(int? id)
         {
             try
@@ -43,9 +44,9 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 return result.FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                
                 throw;
             }
         }
@@ -67,44 +68,20 @@ namespace OG_MFTG.DataLayer.Repositories
                 return result.FirstOrDefault();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                
                 throw;
             }
         }
 
-        //public async Task<Employee> SelectByIdSample(int? id)
-        //{
-        //    try
-        //    {
-        //        _connection = Connect.Open();
-        //        var p = new DynamicParameters();
-
-        //        p.Add("@EmployeeId", id);
-
-        //        var result =
-        //            await
-        //                _connection.QueryAsync<Employee>("EmployeeSelectByIdSample", p,
-        //                    commandType: CommandType.StoredProcedure);
-        //        return result.FirstOrDefault();
-        //    }
-        //    catch (Exception)
-        //    {
-                
-        //        throw;
-        //    }
-        //} 
-
-        //public async Task<Employee>  
-
-        //protected void Dispose(bool diposing)
-        //{
-        //    if (diposing)
-        //    {
-        //        _connection?.Dispose();
-        //    }
-        //}
+        protected void Dispose(bool diposing)
+        {
+            if (diposing)
+            {
+                _connection?.Dispose();
+            }    
+        }
 
         //public void Dispose()
         //{

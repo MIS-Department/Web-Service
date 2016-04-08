@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -28,7 +29,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }    
 
@@ -50,7 +52,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -71,7 +74,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return ex.HResult;
             }
         }
 
@@ -88,7 +92,8 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+              
             }
         }
 
@@ -103,10 +108,11 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@TimeCategoryId", model.TimeCategoryId);
                 await _connection.ExecuteAsync("TimeCategoryUpdate", p, commandType: CommandType.StoredProcedure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                
             }
         }
 
@@ -125,17 +131,18 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
-        //protected void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        _connection?.Dispose();
-        //    }
-        //}
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connection?.Dispose();
+            }
+        }
 
         //public void Dispose()
         //{
