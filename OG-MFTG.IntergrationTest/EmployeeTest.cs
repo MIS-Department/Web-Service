@@ -31,7 +31,7 @@ namespace OG_MFTG.IntergrationTest
         {
             var repo  = new DailyTimeRecordRepository();
 
-            Console.WriteLine(await repo.GetEmplopyeeNotification(911));
+            Console.WriteLine(await repo.GetEmplopyeeNotification(911,1));
 
         }
 

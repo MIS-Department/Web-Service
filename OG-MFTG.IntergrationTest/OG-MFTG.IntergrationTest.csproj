@@ -39,7 +39,7 @@
     </Reference>
     <Reference Include="HR-Department.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\HR-Department.Models.dll</HintPath>
+      <HintPath>..\..\HR-Department\HR-Department.Models\bin\Debug\HR-Department.Models.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.2.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.2.0\lib\net45\nunit.framework.dll</HintPath>

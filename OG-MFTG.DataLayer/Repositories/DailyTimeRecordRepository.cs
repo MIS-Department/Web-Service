@@ -62,7 +62,7 @@ namespace OG_MFTG.DataLayer.Repositories
             try
             {
                 _connection = Connect.Open();
-                var p = new DynamicParameters();
+                var p = new DynamicParameters();  
 
                 p.Add("@EmployeeId", model.EmployeeId);
                 p.Add("@TimeCategoryId", model.TimeCategoryId);
@@ -162,8 +162,9 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
-                return null;
+                //MessageBox.Show(ex.Message);
+                //return null;
+                throw;
             }
         }
 
@@ -208,7 +209,8 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception)
             {
-                _connection?.Dispose();
+                //_connection?.Dispose();
+                throw;
             }    
         }
 

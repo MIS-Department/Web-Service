@@ -87,6 +87,10 @@
       <Project>{a6450b8e-178c-43fe-953a-2d7697a580f4}</Project>
       <Name>HR-Department.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OG-MFTG.Models\OG-MFTG.Models.csproj">
+      <Project>{3fbdee20-9324-4ca0-a42e-6d12535ed48d}</Project>
+      <Name>OG-MFTG.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

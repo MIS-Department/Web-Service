@@ -75,13 +75,13 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        protected void Dispose(bool diposing)
-        {
-            if (diposing)
-            {
-                _connection?.Dispose();
-            }    
-        }
+        //protected void Dispose(bool diposing)
+        //{
+        //    if (diposing)
+        //    {
+        //        _connection?.Dispose();
+        //    }    
+        //}
 
         //public void Dispose()
         //{
