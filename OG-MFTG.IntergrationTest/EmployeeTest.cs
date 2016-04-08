@@ -25,5 +25,25 @@ namespace OG_MFTG.IntergrationTest
             }
 
         }
+
+        [Test]
+        public async Task CheckNotification()
+        {
+            var repo  = new DailyTimeRecordRepository();
+
+            Console.WriteLine(await repo.GetEmplopyeeNotification(911));
+
+        }
+
+        [Test]
+        public async Task SelectByIdTest()
+        {
+            var repo = new EmployeeRepository();
+
+            var result = await repo.SelectById(851);
+
+            Console.WriteLine("{0}", result.LastName);
+
+        }
     }
 }

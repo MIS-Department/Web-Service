@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -155,18 +154,18 @@ namespace OG_MFTG.DataLayer.Repositories
             }
         }
 
-        protected void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _connection?.Dispose();
-            }
-        }
+        //protected void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        _connection?.Dispose();
+        //    }
+        //}
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
     }
 }

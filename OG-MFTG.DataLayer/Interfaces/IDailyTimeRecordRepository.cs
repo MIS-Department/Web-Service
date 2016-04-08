@@ -5,7 +5,7 @@ using HR_Department.Models.Tables;
 
 namespace OG_MFTG.DataLayer.Interfaces
 {
-    public interface IDailyTimeRecordRepository : IDisposable
+    public interface IDailyTimeRecordRepository
     {
         Task<IEnumerable<DailyTimeRecord>> SelectAll();
         Task<DailyTimeRecord> SelectById(int? id);
@@ -13,7 +13,8 @@ namespace OG_MFTG.DataLayer.Interfaces
         Task Delete(int? id);
         Task Update(DailyTimeRecord model);
         Task<DailyTimeRecord> SelectByEmployeeId(int? id);
-        Task<IEnumerable<Employee>> SelectByEmployeeNumber(string number);
+        Task<int> SelectByEmployeeNumber(string number);
         Task<IEnumerable<DailyTimeRecord>> SelectEmplyeeIdDateCreated(int? id, DateTime startDate, DateTime endDate);
+        Task<bool> GetEmplopyeeNotification(int? employeeId);
     }
 }

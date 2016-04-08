@@ -6,24 +6,69 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
+using OG_MFTG.DataLayer.Repositories;
+using OG_MFTG.Models.DTO;
 
 namespace OG_MFTG.HR_WebApi.Controllers
 {
     [RoutePrefix("hrdapi/dailytimerecord")]
     public class DailyTimeRecordController : ApiController
     {
-        private readonly IDailyTimeRecordRepository _repository;
+        private readonly IDailyTimeRecordRepository _dailyTimeRepo;
+        private readonly IEmployeeRepository _employeeRepo;
 
-        public DailyTimeRecordController(IDailyTimeRecordRepository repository)
+        public DailyTimeRecordController(IDailyTimeRecordRepository dailyTimeRepo, EmployeeRepository employeeRepo)
         {
-            _repository = repository;
+            _dailyTimeRepo = dailyTimeRepo;
+            _employeeRepo = employeeRepo;
+        }
+
+        [Route("")]
+        [HttpGet]
+        [ResponseType(typeof(EmployeeNotify))]
+        public async Task<IHttpActionResult> GetEmployeeDetails([FromUri]string employeeNumber,[FromUri] int? timeCategoryId)
+        {
+            if (employeeNumber == null || timeCategoryId == null)
+            {
+                return BadRequest("employeeNumber or timeCategoryId is null");
+            }
+
+            int? id = await _dailyTimeRepo.SelectByEmployeeNumber(employeeNumber);
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var employeeNotif = new EmployeeNotify
+            {
+                IsNotify = await _dailyTimeRepo.GetEmplopyeeNotification(id),
+                Employee = await _employeeRepo.SelectById(id)
+            };
+
+
+            if (employeeNotif.IsNotify)
+            {   
+                return Ok(employeeNotif);
+            }
+
+            var model = new DailyTimeRecord
+            {
+                DateCreated = DateTime.Now,
+                EmployeeId = id,
+                TimeCategoryId = timeCategoryId
+
+            };
+            await _dailyTimeRepo.Insert(model);
+            //var result = await _employeeRepo.SelectById(id);
+            return Ok(employeeNotif);
         }
 
         [HttpGet]
         [Route("")]
         public async Task<IEnumerable<DailyTimeRecord>> GetAllDailyTimeRecord()
         {
-            return await _repository.SelectAll();
+            return await _dailyTimeRepo.SelectAll();
         }
 
         [HttpGet]
@@ -35,7 +80,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
             {
                 return BadRequest();
             }
-            var model = await _repository.SelectById(id);
+            var model = await _dailyTimeRepo.SelectById(id);
             if (model == null)
             {
                 return NotFound();
@@ -52,7 +97,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var id = await _repository.Insert(model);
+            var id = await _dailyTimeRepo.Insert(model);
             string uri = Url.Link("DefaultApi", new { id });
             return Created(uri, model.DailyTimeRecordId = id);
         }
@@ -62,7 +107,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> PutDailyTimeRecord(DailyTimeRecord model)
         {
-            var result = await _repository.SelectById(model.DailyTimeRecordId);
+            var result = await _dailyTimeRepo.SelectById(model.DailyTimeRecordId);
             if (result == null)
             {
                 return NotFound();
@@ -71,25 +116,25 @@ namespace OG_MFTG.HR_WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            await _repository.Update(model);
+            await _dailyTimeRepo.Update(model);
             return Ok(model);
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof (HttpResponseMessage))]
+        [ResponseType(typeof(HttpResponseMessage))]
         public async Task<IHttpActionResult> DeleteDailyTimeRecord(int? id)
         {
             if (id == null)
             {
                 return BadRequest();
             }
-            var model = await _repository.SelectById(id);
+            var model = await _dailyTimeRepo.SelectById(id);
             if (model == null)
             {
                 return NotFound();
             }
-            await _repository.Delete(id);
+            await _dailyTimeRepo.Delete(id);
             return Ok();
         }
 
@@ -102,7 +147,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
             {
                 return BadRequest();
             }
-            var result = await _repository.SelectByEmployeeId(id);
+            var result = await _dailyTimeRepo.SelectByEmployeeId(id);
             return Ok(result);
         }
 

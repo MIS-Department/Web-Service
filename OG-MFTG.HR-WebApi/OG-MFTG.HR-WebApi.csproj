@@ -146,6 +146,10 @@
       <Project>{d8f1dad8-9084-4aa0-bc33-76050740fdac}</Project>
       <Name>OG-MFTG.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OG-MFTG.Models\OG-MFTG.Models.csproj">
+      <Project>{3fbdee20-9324-4ca0-a42e-6d12535ed48d}</Project>
+      <Name>OG-MFTG.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

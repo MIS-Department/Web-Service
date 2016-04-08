@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using HR_Department.Models.Tables;
 
 namespace OG_MFTG.DataLayer.Interfaces
 {
-    public interface IEmployeeRepository : IDisposable
+    public interface IEmployeeRepository
     {
         Task<IEnumerable<Employee>> SelectAll();
         Task<Employee> SelectById(int? id);

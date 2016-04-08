@@ -5,7 +5,7 @@ using HR_Department.Models.Tables;
 
 namespace OG_MFTG.DataLayer.Interfaces
 {
-    public interface ICalculatedTimeRepository : IDisposable
+    public interface ICalculatedTimeRepository 
     {
         Task<IEnumerable<CalculatedTime>> SelectAll();
         Task<CalculatedTime> SelectById(int? id);

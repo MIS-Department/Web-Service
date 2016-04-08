@@ -12,7 +12,7 @@ namespace OG_MFTG.DataLayer.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private IDbConnection _connection; 
+        private IDbConnection _connection;
 
         public async Task<IEnumerable<Employee>> SelectAll()
         {
@@ -25,27 +25,27 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception)
             {
-                
+
                 throw;
-            }    
-        }  
+            }
+        }
         public async Task<Employee> SelectById(int? id)
         {
             try
             {
                 _connection = Connect.Open();
-                var p = new DynamicParameters();
+                //var p = new DynamicParameters();
 
-                p.Add("@EmployeeId", p);
+                //p.Add("@Id", p);
 
-                var result = await _connection.QueryAsync<Employee>("EmployeeSelectById", p,
+                var result = await _connection.QueryAsync<Employee>("EmployeeSelectByID", new { id },
                     commandType: CommandType.StoredProcedure);
 
                 return result.FirstOrDefault();
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }
@@ -69,23 +69,25 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }
 
-        protected void Dispose(bool diposing)
-        {
-            if (diposing)
-            {
-                _connection?.Dispose();
-            }    
-        }
+        //public async Task<Employee>  
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        //protected void Dispose(bool diposing)
+        //{
+        //    if (diposing)
+        //    {
+        //        _connection?.Dispose();
+        //    }
+        //}
+
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
     }
 }
