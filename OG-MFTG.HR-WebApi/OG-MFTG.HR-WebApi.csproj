@@ -117,6 +117,8 @@
     <Compile Include="Controllers\CalculatedTimeController.cs" />
     <Compile Include="Controllers\DailyTimeRecordController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeScheduleController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TimeCategoryController.cs" />
     <Compile Include="Controllers\TimeTypeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -129,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Test.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
