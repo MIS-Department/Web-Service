@@ -34,11 +34,11 @@ namespace OG_MFTG.DataLayer.Repositories
             try
             {
                 _connection = Connect.Open();
-                //var p = new DynamicParameters();
+                var p = new DynamicParameters();
 
-                //p.Add("@Id", p);
+                p.Add("@EmployeeId", id);
 
-                var result = await _connection.QueryAsync<Employee>("EmployeeSelectByID", new { id },
+                var result = await _connection.QueryAsync<Employee>("EmployeeSelectById", p,
                     commandType: CommandType.StoredProcedure);
 
                 return result.FirstOrDefault();
@@ -73,6 +73,28 @@ namespace OG_MFTG.DataLayer.Repositories
                 throw;
             }
         }
+
+        //public async Task<Employee> SelectByIdSample(int? id)
+        //{
+        //    try
+        //    {
+        //        _connection = Connect.Open();
+        //        var p = new DynamicParameters();
+
+        //        p.Add("@EmployeeId", id);
+
+        //        var result =
+        //            await
+        //                _connection.QueryAsync<Employee>("EmployeeSelectByIdSample", p,
+        //                    commandType: CommandType.StoredProcedure);
+        //        return result.FirstOrDefault();
+        //    }
+        //    catch (Exception)
+        //    {
+                
+        //        throw;
+        //    }
+        //} 
 
         //public async Task<Employee>  
 

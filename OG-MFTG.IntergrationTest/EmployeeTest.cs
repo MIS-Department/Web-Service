@@ -45,5 +45,13 @@ namespace OG_MFTG.IntergrationTest
             Console.WriteLine("{0}", result.LastName);
 
         }
+
+        //[Test]
+        //public async Task SelectByIdSample()
+        //{
+        //    var repo = new EmployeeRepository();
+        //    var result = await repo.SelectByIdSample(851);
+        //    Console.WriteLine("{0}",result.LastName);
+        //} 
     }
 }

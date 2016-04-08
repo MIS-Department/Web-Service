@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HR_Department.Models.Tables;
+using OG_MFTG.Models.DTO;
 
 namespace OG_MFTG.DataLayer.Interfaces
 {
@@ -15,6 +16,6 @@ namespace OG_MFTG.DataLayer.Interfaces
         Task<DailyTimeRecord> SelectByEmployeeId(int? id);
         Task<int> SelectByEmployeeNumber(string number);
         Task<IEnumerable<DailyTimeRecord>> SelectEmplyeeIdDateCreated(int? id, DateTime startDate, DateTime endDate);
-        Task<bool> GetEmplopyeeNotification(int? employeeId);
+        Task<Notification> GetEmplopyeeNotification(int? employeeId, int? timeCategoryId);
     }
 }

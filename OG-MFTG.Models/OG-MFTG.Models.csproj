@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\EmployeeNotify.cs" />
+    <Compile Include="DTO\Notification.cs" />
     <Compile Include="Interfaces\IEmployeeNotify.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

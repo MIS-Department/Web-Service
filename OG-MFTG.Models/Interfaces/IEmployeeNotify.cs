@@ -2,9 +2,10 @@
 
 namespace OG_MFTG.Models.Interfaces
 {
-    public interface IEmployeeNotify 
+    public interface IEmployeeNotify
     {
         Employee Employee { get; set; }
-        bool IsNotify { get; set; }
+        bool IsSuspended { get; set; }
+        bool IsTimeCheck { get; set; }
     }
 }

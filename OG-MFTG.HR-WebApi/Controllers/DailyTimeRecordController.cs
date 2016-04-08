@@ -26,37 +26,41 @@ namespace OG_MFTG.HR_WebApi.Controllers
         [Route("")]
         [HttpGet]
         [ResponseType(typeof(EmployeeNotify))]
-        public async Task<IHttpActionResult> GetEmployeeDetails([FromUri]string employeeNumber,[FromUri] int? timeCategoryId)
+        public async Task<IHttpActionResult> GetEmployeeDetails([FromUri]string employeeNumber, [FromUri] int? timeCategoryId)
         {
             if (employeeNumber == null || timeCategoryId == null)
             {
                 return BadRequest("employeeNumber or timeCategoryId is null");
             }
 
-            int? id = await _dailyTimeRepo.SelectByEmployeeNumber(employeeNumber);
+            int? employeeId = await _dailyTimeRepo.SelectByEmployeeNumber(employeeNumber);
 
-            if (id == null)
+            if (employeeId == null)
             {
                 return NotFound();
             }
 
+            var notify = await _dailyTimeRepo.GetEmplopyeeNotification(employeeId, timeCategoryId);
+
             var employeeNotif = new EmployeeNotify
             {
-                IsNotify = await _dailyTimeRepo.GetEmplopyeeNotification(id),
-                Employee = await _employeeRepo.SelectById(id)
+                IsSuspended = notify.IsSuspended,
+                IsTimeCheck = notify.IsTimeCheck,
+                Employee = await _employeeRepo.SelectById(employeeId)
             };
 
 
-            if (employeeNotif.IsNotify)
-            {   
+            if (employeeNotif.IsSuspended || employeeNotif.IsTimeCheck)
+            {
                 return Ok(employeeNotif);
             }
 
             var model = new DailyTimeRecord
             {
                 DateCreated = DateTime.Now,
-                EmployeeId = id,
-                TimeCategoryId = timeCategoryId
+                EmployeeId = employeeId,
+                TimeCategoryId = timeCategoryId,
+                Time = DateTime.Now
 
             };
             await _dailyTimeRepo.Insert(model);

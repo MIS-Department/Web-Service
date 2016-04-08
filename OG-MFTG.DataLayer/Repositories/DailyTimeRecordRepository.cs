@@ -7,6 +7,7 @@ using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
 using OG_MFTG.DataLayer.Util;
+using OG_MFTG.Models.DTO;
 
 namespace OG_MFTG.DataLayer.Repositories
 {
@@ -182,7 +183,7 @@ namespace OG_MFTG.DataLayer.Repositories
             }    
         }
 
-        public async Task<bool> GetEmplopyeeNotification(int? employeeId)
+        public async Task<Notification> GetEmplopyeeNotification(int? employeeId, int? timeCategoryId)
         {
             try
             {
@@ -190,10 +191,11 @@ namespace OG_MFTG.DataLayer.Repositories
                 var p = new DynamicParameters();
 
                 p.Add("@EmployeeId", employeeId);
+                p.Add("@TimeCategoryId",timeCategoryId);
 
                 var result =
                     await
-                        _connection.QueryAsync<bool>("EmployeeNotification", p, commandType: CommandType.StoredProcedure);
+                        _connection.QueryAsync<Notification>("EmployeeCheckTimeCategory", p, commandType: CommandType.StoredProcedure);
 
                 return result.FirstOrDefault();
             }
@@ -203,6 +205,8 @@ namespace OG_MFTG.DataLayer.Repositories
                 throw;
             }
         }  
+
+
 
         //protected void Dispose(bool disposing)
         //{
