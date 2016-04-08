@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -24,8 +25,9 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -46,8 +48,9 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -67,8 +70,9 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+                return ex.HResult;
             }    
         }
 
@@ -84,8 +88,9 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+               
             }
         }
 
@@ -102,8 +107,9 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+               
             }
         }
 
@@ -122,8 +128,9 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -131,7 +138,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             if (disposing)
             {
-                _connection?.Dispose();
+                _connection.Close();
             }
         }
 

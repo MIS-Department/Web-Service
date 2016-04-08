@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -23,10 +24,11 @@ namespace OG_MFTG.DataLayer.Repositories
                     await
                         _connection.QueryAsync<Employee>("EmployeeSelectAll", commandType: CommandType.StoredProcedure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+                return null;
             }    
         }  
         public async Task<Employee> SelectById(int? id)
@@ -43,10 +45,11 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 return result.FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -67,10 +70,11 @@ namespace OG_MFTG.DataLayer.Repositories
                 return result.FirstOrDefault();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -78,7 +82,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             if (diposing)
             {
-                _connection?.Dispose();
+                _connection.Dispose();
             }    
         }
 

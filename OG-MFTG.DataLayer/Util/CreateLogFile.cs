@@ -33,7 +33,7 @@ namespace OG_MFTG.DataLayer.Util
             StringBuilder path = new StringBuilder();
 
             directory.Append(HttpContext.Current.Server.MapPath("Logs/ErroLog"));
-            fileName.Append($"{DateTime.Now:yyyy-MM-dd}__{name}.txt");
+            //fileName.Append($"{DateTime.Now:yyyy-MM-dd}__{name}.txt");
             path.Append(Path.Combine(directory.ToString(), fileName.ToString()));
 
             using (var sw = new StreamWriter(path.ToString(), true))

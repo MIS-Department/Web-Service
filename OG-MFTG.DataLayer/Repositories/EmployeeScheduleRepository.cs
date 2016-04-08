@@ -185,7 +185,7 @@ namespace OG_MFTG.DataLayer.Repositories
         {
             if (disposing)
             {
-                _connection?.Dispose();
+                _connection.Dispose();
             }
         }
 
