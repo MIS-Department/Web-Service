@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -25,9 +24,13 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                return null;
 
+                //MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -49,8 +52,12 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
-                return null;
+                //MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -73,8 +80,12 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
-                return ex.HResult;
+                //MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -91,8 +102,12 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
-                
+                //MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -114,8 +129,12 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
-               
+                //MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -135,8 +154,12 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
-                return null;
+                //MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -157,8 +180,12 @@ namespace OG_MFTG.DataLayer.Repositories
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message);
-                return null;
+                //MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 

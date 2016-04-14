@@ -4,6 +4,6 @@
     {
         public bool IsSuspended { get; set; }
         public bool IsTimeCheck { get; set; }
-
+        public bool IsResign { get; set; }
     }
 }

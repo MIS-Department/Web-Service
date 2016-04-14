@@ -31,6 +31,10 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 throw;
             }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
         public async Task<CalculatedTime> SelectById(int? id)
@@ -54,6 +58,10 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 throw;
             }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
         public async Task<int> Insert(CalculatedTime model)
@@ -76,6 +84,10 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 throw;
             }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
         public async Task Delete(int? id)
@@ -93,6 +105,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
 
                 throw;
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
@@ -114,6 +130,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
 
                 throw;
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 

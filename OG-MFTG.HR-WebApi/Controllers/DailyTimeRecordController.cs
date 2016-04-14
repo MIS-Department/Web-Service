@@ -26,33 +26,57 @@ namespace OG_MFTG.HR_WebApi.Controllers
         [Route("")]
         [HttpGet]
         [ResponseType(typeof(EmployeeNotify))]
-        public async Task<IHttpActionResult> GetEmployeeDetails([FromUri]string employeeNumber, [FromUri] int? timeCategoryId)
+        public async Task<EmployeeNotify> GetEmployeeDetails([FromUri]string employeeNumber, [FromUri] int? timeCategoryId)
         {
+            EmployeeNotify employeeNotif;
             if (employeeNumber == null || timeCategoryId == null)
             {
-                return BadRequest("employeeNumber or timeCategoryId is null");
+                var error = new ErrorReturn
+                {
+                    Code = "Error",
+                    Message = "EmployeeNumber or TimeCategoryId is not set"
+                };
+                employeeNotif = new EmployeeNotify
+                {
+                    Error = error
+                };
+                return employeeNotif;
             }
 
             int? employeeId = await _dailyTimeRepo.SelectByEmployeeNumber(employeeNumber);
 
+            
+
             if (employeeId == null)
             {
-                return NotFound();
+                var error = new ErrorReturn
+                {  
+                    Code = "Error",
+                    Message = "Employee Number do not exist"
+                };
+                employeeNotif = new EmployeeNotify
+                {
+                    Error = error
+                };
+                return employeeNotif;
             }
+
 
             var notify = await _dailyTimeRepo.GetEmplopyeeNotification(employeeId, timeCategoryId);
 
-            var employeeNotif = new EmployeeNotify
+            employeeNotif = new EmployeeNotify
             {
                 IsSuspended = notify.IsSuspended,
+                IsResign =   notify.IsResign,
                 IsTimeCheck = notify.IsTimeCheck,
-                Employee = await _employeeRepo.SelectById(employeeId)
+                Employee = await _employeeRepo.SelectById(employeeId),
+                DailyTimeRecord = await _dailyTimeRepo.GetDailyTimeRecordTopFive(employeeId)
             };
 
 
-            if (employeeNotif.IsSuspended || employeeNotif.IsTimeCheck)
+            if (employeeNotif.IsSuspended || employeeNotif.IsTimeCheck || employeeNotif.IsResign)
             {
-                return Ok(employeeNotif);
+                return employeeNotif;
             }
 
             var model = new DailyTimeRecord
@@ -63,9 +87,11 @@ namespace OG_MFTG.HR_WebApi.Controllers
                 Time = DateTime.Now
 
             };
+
             await _dailyTimeRepo.Insert(model);
-            //var result = await _employeeRepo.SelectById(id);
-            return Ok(employeeNotif);
+
+            employeeNotif.DailyTimeRecord = await _dailyTimeRepo.GetDailyTimeRecordTopFive(employeeId);
+            return employeeNotif;
         }
 
         [HttpGet]
