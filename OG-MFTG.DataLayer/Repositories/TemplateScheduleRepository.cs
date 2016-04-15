@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -25,10 +24,15 @@ namespace OG_MFTG.DataLayer.Repositories
                         _connection.QueryAsync<TemplateSchedule>("TemplateScheduleAll",
                             commandType: CommandType.StoredProcedure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -48,10 +52,15 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 return result.FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -69,10 +78,15 @@ namespace OG_MFTG.DataLayer.Repositories
                 await _connection.ExecuteAsync("TemplateScheduleInsert", p, commandType: CommandType.StoredProcedure);
                 return p.Get<int>("@TemplateScheduleId");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -87,10 +101,15 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 await _connection.ExecuteAsync("TemplateScheduleDelete", p, commandType: CommandType.StoredProcedure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -107,10 +126,15 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 await _connection.ExecuteAsync("TemplateScheduleUpdate", p, commandType: CommandType.StoredProcedure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -129,10 +153,15 @@ namespace OG_MFTG.DataLayer.Repositories
                             commandType: CommandType.StoredProcedure);
                 return result.FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 

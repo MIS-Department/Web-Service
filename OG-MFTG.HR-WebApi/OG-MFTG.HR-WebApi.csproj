@@ -125,6 +125,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\BrowserJsonFormatter.cs" />
     <Compile Include="Util\IRequestMessageProvider.cs" />
     <Compile Include="Util\RequestMessageProvider.cs" />
     <Compile Include="ValidationRepositoryFilter\ValidationErrorHandlerFilterAttribute.cs" />

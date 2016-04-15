@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -25,9 +24,13 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                //CreateLogFile err = new CreateLogFile();
-                //await err.ErrorLog(ex.Message, "error");
+
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -49,9 +52,13 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                //CreateLogFile err = new CreateLogFile();
-                //await err.ErrorLog(ex.Message, "error");
+
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -72,9 +79,13 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                //CreateLogFile err = new CreateLogFile();
-                //await err.ErrorLog(ex.Message, "error");
+
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -90,9 +101,13 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                //CreateLogFile err = new CreateLogFile();
-                //await err.ErrorLog(ex.Message, "error");
+
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -109,9 +124,13 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                //CreateLogFile err = new CreateLogFile();
-                //await err.ErrorLog(ex.Message, "error");
+
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -125,11 +144,21 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@Name", name);
                 return await _connection.QueryAsync<TimeType>("TimeTypeSelectByName", p, commandType: CommandType.StoredProcedure);
             }
+            //catch (Exception ex)
+            //{
+            //    //CreateLogFile err = new CreateLogFile();
+            //    //await err.ErrorLog(ex.Message, "error");
+            //    throw;
+            //}
             catch (Exception ex)
             {
-                //CreateLogFile err = new CreateLogFile();
-                //await err.ErrorLog(ex.Message, "error");
+
+                //MessageBox.Show(ex.Message);
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 

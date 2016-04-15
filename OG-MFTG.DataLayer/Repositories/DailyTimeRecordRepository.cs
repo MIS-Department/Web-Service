@@ -33,6 +33,10 @@ namespace OG_MFTG.DataLayer.Repositories
                 MessageBox.Show(ex.Message);
                 return null;
             }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
         public async Task<DailyTimeRecord> SelectById(int? id)
@@ -54,6 +58,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
                 MessageBox.Show(ex.Message);
                 return null;
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
@@ -80,6 +88,10 @@ namespace OG_MFTG.DataLayer.Repositories
                 MessageBox.Show(ex.Message);
                 return ex.HResult;
             }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
         public async Task Delete(int? id)
@@ -96,7 +108,11 @@ namespace OG_MFTG.DataLayer.Repositories
             {
 
                 MessageBox.Show(ex.Message);
-                
+
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
@@ -118,7 +134,11 @@ namespace OG_MFTG.DataLayer.Repositories
             {
 
                 MessageBox.Show(ex.Message);
-               
+
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
@@ -142,9 +162,13 @@ namespace OG_MFTG.DataLayer.Repositories
                 MessageBox.Show(ex.Message);
                 return null;
             }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
-        public async Task<int> SelectByEmployeeNumber(string number)
+        public async Task<int?> SelectByEmployeeNumber(string number)
         {
             try
             {
@@ -155,7 +179,7 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 var result =
                     await
-                        _connection.QueryAsync<int>("DailyTimeRecordEmployeeNumber", p,
+                        _connection.QueryAsync<int?>("DailyTimeRecordEmployeeNumber", p,
                             commandType: CommandType.StoredProcedure);
                 return result.FirstOrDefault();
             }
@@ -165,6 +189,10 @@ namespace OG_MFTG.DataLayer.Repositories
                 //MessageBox.Show(ex.Message);
                 //return null;
                 throw;
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
@@ -186,9 +214,14 @@ namespace OG_MFTG.DataLayer.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                return null;
-            }    
+                //MessageBox.Show(ex.Message);
+                //return null;
+                throw;
+            }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
         public async Task<Notification> GetEmplopyeeNotification(int? employeeId, int? timeCategoryId)
@@ -201,19 +234,55 @@ namespace OG_MFTG.DataLayer.Repositories
                 p.Add("@EmployeeId", employeeId);
                 p.Add("@TimeCategoryId",timeCategoryId);
 
-                var result =
+                var multi =
                     await
-                        _connection.QueryAsync<Notification>("EmployeeCheckTimeCategory", p, commandType: CommandType.StoredProcedure);
+                        _connection.QueryMultipleAsync("EmployeeCheckTimeCategory", p, commandType: CommandType.StoredProcedure);
 
-                return result.FirstOrDefault();
+                Notification notify = new Notification
+                {
+                    IsTimeCheck = multi.ReadAsync<bool>().Result.FirstOrDefault(),
+                    IsSuspended = multi.ReadAsync<bool>().Result.FirstOrDefault(),
+                    IsResign = multi.ReadAsync<bool>().Result.FirstOrDefault()
+                };  
+
+
+                return notify;
             }
             catch (Exception)
             {
                 //_connection?.Dispose();
                 throw;
-            }    
+            }
+            finally
+            {
+                _connection.Close();
+            }
         }
 
+        public async Task<IEnumerable<DailyTimeDetails>> GetDailyTimeRecordTopFive(int? employeeId)
+        {
+            try
+            {
+                _connection = Connect.Open();
+                var p = new DynamicParameters();
+
+                p.Add("@EmployeeId", employeeId);
+
+                return
+                    await
+                        _connection.QueryAsync<DailyTimeDetails>("DailyTimeRecordSelectByEmployeeIdTopFive", p,
+                            commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception)
+            {
+               
+                throw;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
 
 
         //protected void Dispose(bool disposing)

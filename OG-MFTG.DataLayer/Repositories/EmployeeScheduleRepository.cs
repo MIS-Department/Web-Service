@@ -29,6 +29,10 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 throw;
             }
+            finally
+            {
+                _connection.Dispose();
+            }
         }
 
         public async Task<EmployeeSchedule> SelectById(int? id)
@@ -51,6 +55,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
 
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -75,6 +83,10 @@ namespace OG_MFTG.DataLayer.Repositories
 
                 throw;
             }
+            finally
+            {
+                _connection.Dispose();
+            }
         }
 
         public async Task Delete(int? id)
@@ -92,6 +104,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
 
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -113,6 +129,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
 
                 throw;
+            }
+            finally
+            {
+                _connection.Dispose();
             }
         }
 
@@ -136,6 +156,10 @@ namespace OG_MFTG.DataLayer.Repositories
                 
                 throw;
             }
+            finally
+            {
+                _connection.Dispose();
+            }
         }
 
         public async Task<EmployeeSchedule> SelectByScheduleId(int? scheduleId)
@@ -158,6 +182,10 @@ namespace OG_MFTG.DataLayer.Repositories
                 
                 throw;
             }
+            finally
+            {
+                _connection.Dispose();
+            }
         }
 
         public async Task<EmployeeSchedule> SelectByEmployee(int? employeeId)
@@ -178,7 +206,11 @@ namespace OG_MFTG.DataLayer.Repositories
             {
                 
                 throw;
-            }    
+            }
+            finally
+            {
+                _connection.Dispose();
+            }
         }
 
         //protected void Dispose(bool disposing)

@@ -14,8 +14,9 @@ namespace OG_MFTG.DataLayer.Interfaces
         Task Delete(int? id);
         Task Update(DailyTimeRecord model);
         Task<DailyTimeRecord> SelectByEmployeeId(int? id);
-        Task<int> SelectByEmployeeNumber(string number);
+        Task<int?> SelectByEmployeeNumber(string number);
         Task<IEnumerable<DailyTimeRecord>> SelectEmplyeeIdDateCreated(int? id, DateTime startDate, DateTime endDate);
         Task<Notification> GetEmplopyeeNotification(int? employeeId, int? timeCategoryId);
+        Task<IEnumerable<DailyTimeDetails>> GetDailyTimeRecordTopFive(int? employeeId);
     }
 }

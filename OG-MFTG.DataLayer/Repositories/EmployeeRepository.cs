@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Dapper;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
@@ -28,7 +27,11 @@ namespace OG_MFTG.DataLayer.Repositories
             {
                 
                 throw;
-            }    
+            }
+            finally
+            {
+                _connection.Close();
+            }
         }  
         public async Task<Employee> SelectById(int? id)
         {
@@ -48,6 +51,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
                 
                 throw;
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
@@ -72,6 +79,10 @@ namespace OG_MFTG.DataLayer.Repositories
             {
                 
                 throw;
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
