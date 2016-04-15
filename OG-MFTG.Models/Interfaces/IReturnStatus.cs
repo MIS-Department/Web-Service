@@ -4,6 +4,6 @@ namespace OG_MFTG.Models.Interfaces
 {
     public interface IReturnStatus 
     {
-        ErrorReturn Error { get; set; }  
+        Error Error { get; set; }  
     }
 }

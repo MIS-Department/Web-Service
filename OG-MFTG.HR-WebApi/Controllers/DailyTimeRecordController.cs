@@ -6,7 +6,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using HR_Department.Models.Tables;
 using OG_MFTG.DataLayer.Interfaces;
-using OG_MFTG.DataLayer.Repositories;
 using OG_MFTG.Models.DTO;
 
 namespace OG_MFTG.HR_WebApi.Controllers
@@ -17,7 +16,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
         private readonly IDailyTimeRecordRepository _dailyTimeRepo;
         private readonly IEmployeeRepository _employeeRepo;
 
-        public DailyTimeRecordController(IDailyTimeRecordRepository dailyTimeRepo, EmployeeRepository employeeRepo)
+        public DailyTimeRecordController(IDailyTimeRecordRepository dailyTimeRepo, IEmployeeRepository employeeRepo)
         {
             _dailyTimeRepo = dailyTimeRepo;
             _employeeRepo = employeeRepo;
@@ -31,7 +30,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
             EmployeeNotify employeeNotif;
             if (employeeNumber == null || timeCategoryId == null)
             {
-                var error = new ErrorReturn
+                var error = new Error
                 {
                     Code = "Error",
                     Message = "EmployeeNumber or TimeCategoryId is not set"
@@ -49,7 +48,7 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
             if (employeeId == null)
             {
-                var error = new ErrorReturn
+                var error = new Error
                 {  
                     Code = "Error",
                     Message = "Employee Number do not exist"
@@ -76,6 +75,13 @@ namespace OG_MFTG.HR_WebApi.Controllers
 
             if (employeeNotif.IsSuspended || employeeNotif.IsTimeCheck || employeeNotif.IsResign)
             {
+                var error = new Error
+                {
+                    Code = "Error",
+                    Message = "Employee is Suspended/Resign/Have already record"
+                };
+                employeeNotif.Error = error;
+
                 return employeeNotif;
             }
 
@@ -179,20 +185,6 @@ namespace OG_MFTG.HR_WebApi.Controllers
             }
             var result = await _dailyTimeRepo.SelectByEmployeeId(id);
             return Ok(result);
-        }
-
-
-        //[ResponseType(typeof(IEnumerable<DailyTimeRecord>))]
-        //[Route("{id:int}/startdate/{startdate:datetime}/enddate/{enddate:datetime}")]
-        //public async Task<IEnumerable<DailyTimeRecord>> GetByEmployeeIdDateCreated(int? id, DateTime startDate,
-        //    DateTime endTime)
-        //{  
-
-        //    if (id == null)
-        //    {
-        //        return
-        //    }    
-
-        //}
+        }   
     }
 }

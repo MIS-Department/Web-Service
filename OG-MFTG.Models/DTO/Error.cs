@@ -1,6 +1,6 @@
 ﻿namespace OG_MFTG.Models.DTO
 {
-    public class ErrorReturn
+    public class Error
     {
         //public string Error { get; set; }
         public string Code { get; set; }

@@ -12,6 +12,6 @@ namespace OG_MFTG.Models.DTO
         public bool IsResign { get; set; }
 
         public IEnumerable<DailyTimeDetails> DailyTimeRecord { get; set; }
-        public ErrorReturn Error { get; set; }
+        public Error Error { get; set; }
     }
 }
